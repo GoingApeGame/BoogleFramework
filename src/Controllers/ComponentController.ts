@@ -1,7 +1,7 @@
 import { CollectionService, RunService, ServerScriptService, StarterPlayer, Workspace } from "@rbxts/services";
 import { IComponentManifest } from "../Types/IComponentManifest";
 import { BaseComponent } from "../Classes/BaseComponent";
-import { BaseController } from "../Classes/Controller";
+import { BaseController } from "../Classes/BaseController";
 import { BullshitHelpers } from "../Services/BullshitHelpers";
 import { ComponentService } from "../Services/ComponentService";
 

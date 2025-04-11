@@ -1,8 +1,8 @@
 import { BullshitHelpers } from "../Services/BullshitHelpers";
 import { IControllerRegistry } from "../Types/IControllerRegistry";
-import { BaseController } from "./Controller";
+import { BaseController } from "./BaseController";
 
-export class GameStarter {
+export abstract class GameStarter {
 	public static GameName = game.Name;
 	public static GameVersion = game.PlaceVersion;
 

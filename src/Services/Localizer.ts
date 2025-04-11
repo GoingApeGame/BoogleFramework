@@ -4,7 +4,7 @@ interface BoogleLocalizationTable {
 	[key: string]: string;
 }
 
-export class Localizer {
+export abstract class Localizer {
 	private static LocalizationTable?: BoogleLocalizationTable;
 
 	public static SetLocalizationTable(LocalizationTable: BoogleLocalizationTable) {

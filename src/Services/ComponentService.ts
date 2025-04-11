@@ -1,7 +1,7 @@
 import { RunService } from "@rbxts/services";
 import { BaseComponent } from "../Classes/BaseComponent";
 
-export class ComponentService {
+export abstract class ComponentService {
 	protected static Components = new Array<BaseComponent<Instance>>();
 
 	public static RegisterComponent<

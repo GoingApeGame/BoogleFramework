@@ -1,6 +1,6 @@
 import { RunService } from "@rbxts/services";
 
-export class BullshitHelpers {
+export abstract class BullshitHelpers {
 	protected static ColoredCircles = {
 		Green: "🟢",
 		Red: "🔴",
