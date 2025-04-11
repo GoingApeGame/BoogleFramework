@@ -1,7 +1,7 @@
 import { ReplicatedStorage } from "@rbxts/services";
-import BullshitHelpers from "./BullshitHelpers";
+import { BullshitHelpers } from "./BullshitHelpers";
 
-export default class ReplicatedAssetService {
+export class ReplicatedAssetService {
 	public static GetAssetByPath(Path: string) {
 		const StartPoint = ReplicatedStorage;
 

@@ -2,7 +2,7 @@ import Signal from "@rbxts/signal";
 import { MongoId } from "./MongoId";
 import { RunService } from "@rbxts/services";
 
-export default abstract class BaseComponent<T extends Instance> {
+export abstract class BaseComponent<T extends Instance> {
 	protected Instance: T;
 	public readonly ID = MongoId.GenerateString();
 

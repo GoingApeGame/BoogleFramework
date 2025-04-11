@@ -1,11 +1,11 @@
 import { CollectionService, RunService, ServerScriptService, StarterPlayer, Workspace } from "@rbxts/services";
-import Controller from "../Classes/Controller";
 import { IComponentManifest } from "../Types/IComponentManifest";
-import BaseComponent from "../Classes/BaseComponent";
-import ComponentService from "../Services/ComponentService";
-import BullshitHelpers from "../Services/BullshitHelpers";
+import { BaseComponent } from "../Classes/BaseComponent";
+import { BaseController } from "../Classes/Controller";
+import { BullshitHelpers } from "../Services/BullshitHelpers";
+import { ComponentService } from "../Services/ComponentService";
 
-export default class ComponentController extends Controller {
+export class ComponentController extends BaseController {
 	public static ComponentManifest: IComponentManifest = [];
 
 	public static GetComponentsFolder(): Folder | undefined {

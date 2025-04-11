@@ -1,7 +1,7 @@
 import { Players, RunService } from "@rbxts/services";
-import BullshitHelpers from "../Services/BullshitHelpers";
+import { BullshitHelpers } from "../Services/BullshitHelpers";
 
-export default abstract class Controller {
+export abstract class BaseController {
 	protected RenderSignal: RBXScriptConnection | undefined;
 	protected HeartbeatSignal: RBXScriptConnection | undefined;
 

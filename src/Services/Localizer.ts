@@ -1,10 +1,10 @@
-import BullshitHelpers from "./BullshitHelpers";
+import { BullshitHelpers } from "./BullshitHelpers";
 
 interface BoogleLocalizationTable {
 	[key: string]: string;
 }
 
-export default class Localizer {
+export class Localizer {
 	private static LocalizationTable?: BoogleLocalizationTable;
 
 	public static SetLocalizationTable(LocalizationTable: BoogleLocalizationTable) {

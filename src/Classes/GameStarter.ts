@@ -1,15 +1,15 @@
-import BullshitHelpers from "../Services/BullshitHelpers";
+import { BullshitHelpers } from "../Services/BullshitHelpers";
 import { IControllerRegistry } from "../Types/IControllerRegistry";
-import Controller from "./Controller";
+import { BaseController } from "./Controller";
 
-export default class GameStarter {
+export class GameStarter {
 	public static GameName = game.Name;
 	public static GameVersion = game.PlaceVersion;
 
 	private static StartedTime = 0;
 
 	private static ControllerRegistry: IControllerRegistry;
-	private static Controllers = new Map<string, Controller>();
+	private static Controllers = new Map<string, BaseController>();
 
 	public static Start() {
 		this.StartedTime = os.clock();

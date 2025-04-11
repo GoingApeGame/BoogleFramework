@@ -1,6 +1,6 @@
 import { Players, RunService } from "@rbxts/services";
 
-export default class PlayerAttributesHandler {
+export class PlayerAttributesHandler {
 	public static GetAttribute<T extends AttributeValue>(Player: Player, Attribute: string): T {
 		return Player.GetAttribute(tostring(Attribute)) as T;
 	}
