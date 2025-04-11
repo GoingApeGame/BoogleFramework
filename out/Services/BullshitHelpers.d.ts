@@ -1,4 +1,4 @@
-export declare class BullshitHelpers {
+export declare abstract class BullshitHelpers {
     protected static ColoredCircles: {
         readonly Green: "🟢";
         readonly Red: "🔴";

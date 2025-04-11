@@ -1,3 +1,3 @@
-export declare class ReplicatedAssetService {
+export declare abstract class ReplicatedAssetService {
     static GetAssetByPath(Path: string): Instance;
 }

@@ -3,16 +3,7 @@ local TS = _G[script]
 local RunService = TS.import(script, TS.getModule(script, "@rbxts", "services")).RunService
 local BullshitHelpers
 do
-	BullshitHelpers = setmetatable({}, {
-		__tostring = function()
-			return "BullshitHelpers"
-		end,
-	})
-	BullshitHelpers.__index = BullshitHelpers
-	function BullshitHelpers.new(...)
-		local self = setmetatable({}, BullshitHelpers)
-		return self:constructor(...) or self
-	end
+	BullshitHelpers = {}
 	function BullshitHelpers:constructor()
 	end
 	function BullshitHelpers:RoundToDecimal(Value, DecimalPlaces)

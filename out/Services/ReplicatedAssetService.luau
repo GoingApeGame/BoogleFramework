@@ -4,16 +4,7 @@ local ReplicatedStorage = TS.import(script, TS.getModule(script, "@rbxts", "serv
 local BullshitHelpers = TS.import(script, script.Parent, "BullshitHelpers").BullshitHelpers
 local ReplicatedAssetService
 do
-	ReplicatedAssetService = setmetatable({}, {
-		__tostring = function()
-			return "ReplicatedAssetService"
-		end,
-	})
-	ReplicatedAssetService.__index = ReplicatedAssetService
-	function ReplicatedAssetService.new(...)
-		local self = setmetatable({}, ReplicatedAssetService)
-		return self:constructor(...) or self
-	end
+	ReplicatedAssetService = {}
 	function ReplicatedAssetService:constructor()
 	end
 	function ReplicatedAssetService:GetAssetByPath(Path)

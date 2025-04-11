@@ -1,5 +1,5 @@
 export { BaseComponent } from "./Classes/BaseComponent";
-export { BaseController } from "./Classes/Controller";
+export { BaseController } from "./Classes/BaseController";
 export { MongoId } from "./Classes/MongoId";
 export { ComponentController } from "./Controllers/ComponentController";
 export { BullshitHelpers } from "./Services/BullshitHelpers";

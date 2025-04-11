@@ -1,4 +1,4 @@
-export declare class GameStarter {
+export declare abstract class GameStarter {
     static GameName: string;
     static GameVersion: number;
     private static StartedTime;

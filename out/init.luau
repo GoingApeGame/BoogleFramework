@@ -2,7 +2,7 @@
 local TS = _G[script]
 local exports = {}
 exports.BaseComponent = TS.import(script, script, "Classes", "BaseComponent").BaseComponent
-exports.BaseController = TS.import(script, script, "Classes", "Controller").BaseController
+exports.BaseController = TS.import(script, script, "Classes", "BaseController").BaseController
 exports.MongoId = TS.import(script, script, "Classes", "MongoId").MongoId
 exports.ComponentController = TS.import(script, script, "Controllers", "ComponentController").ComponentController
 exports.BullshitHelpers = TS.import(script, script, "Services", "BullshitHelpers").BullshitHelpers

@@ -4,16 +4,7 @@ local RunService = TS.import(script, TS.getModule(script, "@rbxts", "services"))
 local BaseComponent = TS.import(script, script.Parent.Parent, "Classes", "BaseComponent").BaseComponent
 local ComponentService
 do
-	ComponentService = setmetatable({}, {
-		__tostring = function()
-			return "ComponentService"
-		end,
-	})
-	ComponentService.__index = ComponentService
-	function ComponentService.new(...)
-		local self = setmetatable({}, ComponentService)
-		return self:constructor(...) or self
-	end
+	ComponentService = {}
 	function ComponentService:constructor()
 	end
 	function ComponentService:RegisterComponent(Instance, ComponentToMake)

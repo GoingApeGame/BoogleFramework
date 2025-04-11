@@ -6,7 +6,7 @@ local RunService = _services.RunService
 local ServerScriptService = _services.ServerScriptService
 local StarterPlayer = _services.StarterPlayer
 local Workspace = _services.Workspace
-local BaseController = TS.import(script, script.Parent.Parent, "Classes", "Controller").BaseController
+local BaseController = TS.import(script, script.Parent.Parent, "Classes", "BaseController").BaseController
 local BullshitHelpers = TS.import(script, script.Parent.Parent, "Services", "BullshitHelpers").BullshitHelpers
 local ComponentService = TS.import(script, script.Parent.Parent, "Services", "ComponentService").ComponentService
 local ComponentController

@@ -3,16 +3,7 @@ local TS = _G[script]
 local BullshitHelpers = TS.import(script, script.Parent.Parent, "Services", "BullshitHelpers").BullshitHelpers
 local GameStarter
 do
-	GameStarter = setmetatable({}, {
-		__tostring = function()
-			return "GameStarter"
-		end,
-	})
-	GameStarter.__index = GameStarter
-	function GameStarter.new(...)
-		local self = setmetatable({}, GameStarter)
-		return self:constructor(...) or self
-	end
+	GameStarter = {}
 	function GameStarter:constructor()
 	end
 	function GameStarter:Start()

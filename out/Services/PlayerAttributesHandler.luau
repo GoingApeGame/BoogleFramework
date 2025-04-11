@@ -5,16 +5,7 @@ local Players = _services.Players
 local RunService = _services.RunService
 local PlayerAttributesHandler
 do
-	PlayerAttributesHandler = setmetatable({}, {
-		__tostring = function()
-			return "PlayerAttributesHandler"
-		end,
-	})
-	PlayerAttributesHandler.__index = PlayerAttributesHandler
-	function PlayerAttributesHandler.new(...)
-		local self = setmetatable({}, PlayerAttributesHandler)
-		return self:constructor(...) or self
-	end
+	PlayerAttributesHandler = {}
 	function PlayerAttributesHandler:constructor()
 	end
 	function PlayerAttributesHandler:GetAttribute(Player, Attribute)

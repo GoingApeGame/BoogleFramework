@@ -1,5 +1,5 @@
 import { BaseComponent } from "../Classes/BaseComponent";
-export declare class ComponentService {
+export declare abstract class ComponentService {
     protected static Components: BaseComponent<Instance>[];
     static RegisterComponent<T extends BaseComponent<Instance>, I extends Instance, C extends new (instance: I) => T>(Instance: I, ComponentToMake: C): T;
     static RegisterExistingComponent<T extends BaseComponent<Instance>>(ExistingComponent: T): T;

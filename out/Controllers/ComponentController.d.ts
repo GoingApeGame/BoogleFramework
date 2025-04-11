@@ -1,6 +1,6 @@
 import { IComponentManifest } from "../Types/IComponentManifest";
 import { BaseComponent } from "../Classes/BaseComponent";
-import { BaseController } from "../Classes/Controller";
+import { BaseController } from "../Classes/BaseController";
 export declare class ComponentController extends BaseController {
     static ComponentManifest: IComponentManifest;
     static GetComponentsFolder(): Folder | undefined;

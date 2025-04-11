@@ -3,16 +3,7 @@ local TS = _G[script]
 local BullshitHelpers = TS.import(script, script.Parent, "BullshitHelpers").BullshitHelpers
 local Localizer
 do
-	Localizer = setmetatable({}, {
-		__tostring = function()
-			return "Localizer"
-		end,
-	})
-	Localizer.__index = Localizer
-	function Localizer.new(...)
-		local self = setmetatable({}, Localizer)
-		return self:constructor(...) or self
-	end
+	Localizer = {}
 	function Localizer:constructor()
 	end
 	function Localizer:SetLocalizationTable(LocalizationTable)
