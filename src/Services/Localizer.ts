@@ -5,7 +5,7 @@ interface BoogleLocalizationTable {
 }
 
 export abstract class Localizer {
-	private static LocalizationTable?: BoogleLocalizationTable;
+	protected static LocalizationTable?: BoogleLocalizationTable;
 
 	public static SetLocalizationTable(LocalizationTable: BoogleLocalizationTable) {
 		this.LocalizationTable = LocalizationTable;

@@ -1,8 +1,8 @@
 export declare abstract class BaseController {
     protected RenderSignal: RBXScriptConnection | undefined;
     protected HeartbeatSignal: RBXScriptConnection | undefined;
-    private IsInitialized;
-    private InitializedTime;
+    protected IsInitialized: boolean;
+    protected InitializedTime: number;
     constructor();
     Initialize(): Promise<void>;
     PostInitialize(): Promise<void>;

@@ -5,9 +5,9 @@ export abstract class BaseController {
 	protected RenderSignal: RBXScriptConnection | undefined;
 	protected HeartbeatSignal: RBXScriptConnection | undefined;
 
-	private IsInitialized = false;
+	protected IsInitialized = false;
 
-	private InitializedTime = 0;
+	protected InitializedTime = 0;
 
 	constructor() {}
 

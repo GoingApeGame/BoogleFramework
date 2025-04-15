@@ -6,10 +6,10 @@ export abstract class GameStarter {
 	public static GameName = game.Name;
 	public static GameVersion = game.PlaceVersion;
 
-	private static StartedTime = 0;
+	protected static StartedTime = 0;
 
-	private static ControllerRegistry: IControllerRegistry;
-	private static Controllers = new Map<string, BaseController>();
+	protected static ControllerRegistry: IControllerRegistry;
+	protected static Controllers = new Map<string, BaseController>();
 
 	public static Start() {
 		this.StartedTime = os.clock();
