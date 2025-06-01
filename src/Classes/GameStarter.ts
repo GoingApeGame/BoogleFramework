@@ -11,6 +11,19 @@ export abstract class GameStarter {
 	protected static ControllerRegistry: IControllerRegistry;
 	protected static Controllers = new Map<string, BaseController>();
 
+	public static GetController<T extends typeof BaseController>(Controller: T): InstanceType<T> | undefined {
+		let FoundController: BaseController | undefined;
+
+		for (const [ControllerName, ControllerInstance] of this.Controllers) {
+			if (ControllerInstance instanceof Controller) {
+				FoundController = ControllerInstance;
+				break;
+			}
+		}
+
+		return FoundController as InstanceType<T>;
+	}
+
 	public static Start() {
 		this.StartedTime = os.clock();
 		BullshitHelpers.LogInfo(`Starting ${GameStarter.GameName} ${GameStarter.GameVersion}`);
