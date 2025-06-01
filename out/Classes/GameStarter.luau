@@ -6,6 +6,16 @@ do
 	GameStarter = {}
 	function GameStarter:constructor()
 	end
+	function GameStarter:GetController(Controller)
+		local FoundController
+		for ControllerName, ControllerInstance in self.Controllers do
+			if TS.instanceof(ControllerInstance, Controller) then
+				FoundController = ControllerInstance
+				break
+			end
+		end
+		return FoundController
+	end
 	function GameStarter:Start()
 		self.StartedTime = os.clock()
 		BullshitHelpers:LogInfo(`Starting {GameStarter.GameName} {GameStarter.GameVersion}`)

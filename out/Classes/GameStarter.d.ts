@@ -6,6 +6,7 @@ export declare abstract class GameStarter {
     protected static StartedTime: number;
     protected static ControllerRegistry: IControllerRegistry;
     protected static Controllers: Map<string, BaseController>;
+    static GetController<T extends typeof BaseController>(Controller: T): InstanceType<T> | undefined;
     static Start(): void;
     static StartControllers(): void;
     static AfterStart(): void;
