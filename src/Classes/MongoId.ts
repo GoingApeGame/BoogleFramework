@@ -1,7 +1,7 @@
 /**
  * MongoDB-style ObjectId for Roblox with correct byte layout and string support.
  */
-export class MongoId {
+export class MongoId implements IMongoId {
 	private static BaseIncrement = math.random(0, 0xffffff);
 	private static BaseProcessId = math.random(0, 0xffff);
 
