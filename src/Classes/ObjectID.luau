@@ -31,19 +31,23 @@ end
 local ObjectID = {}
 
 function ObjectID.new(Timestamp, Machine, ProcessId, Increment)
+	if type(Timestamp) == "string" then
+		return ObjectID:FromString(Timestamp)
+	end
+	
 	return BuildObjectID(Timestamp, Machine, ProcessId, Increment)
 end
 
-function ObjectID.FromString(ID)
+function ObjectID:FromString(ID)
 	assert(#ID == 24, "Invalid ID length")
 	return ID
 end
 
-function ObjectID.GenerateString()
+function ObjectID:GenerateString()
 	return BuildObjectID()
 end
 
-function ObjectID.GenerateNext(ID)
+function ObjectID:GenerateNext(ID)
 	local Timestamp = tonumber(ID:sub(1, 8), 16)
 	local Machine = tonumber(ID:sub(9, 14), 16)
 	local ProcessId = tonumber(ID:sub(15, 18), 16)
@@ -52,4 +56,6 @@ function ObjectID.GenerateNext(ID)
 	return BuildObjectID(Timestamp, Machine, ProcessId, (Increment + 1) % 0xffffff)
 end
 
-return ObjectID
+return {
+	ObjectID = ObjectID
+}

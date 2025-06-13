@@ -9,7 +9,7 @@ declare const ObjectIDBrand: unique symbol;
 type ObjectID<StringType extends string = string> = StringType & { readonly [ObjectIDBrand]: true };
 
 interface ObjectIDModule {
-	new (): ObjectID;
+	new <StringType extends string = string>(ID?: StringType): ObjectID<StringType>;
 
 	/**
 	 * Generates a new ObjectID.
@@ -23,6 +23,10 @@ interface ObjectIDModule {
 	 */
 	GenerateNext(): string;
 
+	/**
+	 * Generates a new ObjectID.
+	 * @deprecated
+	 */
 	FromString<StringType extends string = string>(ID: StringType): ObjectID<StringType>;
 }
 

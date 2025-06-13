@@ -31,12 +31,15 @@ end
 local ObjectID = {}
 
 function ObjectID.new(Timestamp, Machine, ProcessId, Increment)
+	if type(Timestamp) == "string" then
+		return ObjectID:FromString(Timestamp)
+	end
+	
 	return BuildObjectID(Timestamp, Machine, ProcessId, Increment)
 end
 
 function ObjectID:FromString(ID)
-	assert(type(ID) == "string", "ID must be a string")
-	assert(#ID == 24, `Invalid ID length {ID} (expected 24 characters)`)
+	assert(#ID == 24, "Invalid ID length")
 	return ID
 end
 
@@ -54,5 +57,5 @@ function ObjectID:GenerateNext(ID)
 end
 
 return {
-	ObjectID = ObjectID,
+	ObjectID = ObjectID
 }
