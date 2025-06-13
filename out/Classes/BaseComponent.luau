@@ -1,8 +1,8 @@
 -- Compiled with roblox-ts v3.0.0
 local TS = _G[script]
 local Signal = TS.import(script, TS.getModule(script, "@rbxts", "signal"))
-local ObjectID = TS.import(script, script.Parent, "ObjectID").ObjectID
 local RunService = TS.import(script, TS.getModule(script, "@rbxts", "services")).RunService
+local ObjectID = TS.import(script, script.Parent, "ObjectID").ObjectID
 local BaseComponent
 do
 	BaseComponent = {}

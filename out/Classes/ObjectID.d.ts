@@ -1,21 +1,19 @@
-/**
- * MongoDB-style ObjectId for Roblox with correct byte layout and string support.
- */
-export declare class ObjectID {
-    private static BaseIncrement;
-    private static BaseProcessId;
-    private static getBaseMachine;
-    private Timestamp;
-    private Machine;
-    private ProcessId;
-    private Increment;
-    readonly Buffer: buffer;
-    constructor(Timestamp?: number, Machine?: number, ProcessId?: number, Increment?: number);
-    /**
-     * @deprecated
-     */
-    static GenerateString(): string;
-    static FromString(ID: string): ObjectID;
-    GenerateNextId(): ObjectID;
-    private toString;
+// ObjectID.d.ts
+
+type ObjectID = string & { readonly __brand: "MongoId" };
+
+interface ObjectIDModule {
+	new (): ObjectID;
+
+	/**
+	 * Generates a new ObjectID.
+	 * @deprecated
+	 */
+	GenerateString(): string;
+
+	FromString(ID: string): ObjectID;
+
+	GenerateNext(ID: ObjectID): ObjectID;
 }
+
+export const ObjectID: ObjectIDModule;
