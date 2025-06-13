@@ -22,7 +22,7 @@ export class MongoId implements IMongoId {
 	private ProcessId: number;
 	private Increment: number;
 
-	public Buffer: buffer;
+	public readonly Buffer: buffer;
 
 	public constructor(Timestamp?: number, Machine?: number, ProcessId?: number, Increment?: number) {
 		this.Timestamp = Timestamp ?? math.floor(DateTime.now().UnixTimestamp);

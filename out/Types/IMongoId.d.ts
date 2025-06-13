@@ -1,1 +1,3 @@
-interface IMongoId {}
+declare interface IMongoId {
+	Buffer: buffer;
+}

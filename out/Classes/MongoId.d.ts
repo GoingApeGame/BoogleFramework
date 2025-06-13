@@ -9,7 +9,7 @@ export declare class MongoId implements IMongoId {
     private Machine;
     private ProcessId;
     private Increment;
-    Buffer: buffer;
+    readonly Buffer: buffer;
     constructor(Timestamp?: number, Machine?: number, ProcessId?: number, Increment?: number);
     /**
      * @deprecated
