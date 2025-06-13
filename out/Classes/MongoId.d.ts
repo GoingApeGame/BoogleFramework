@@ -1,5 +1,5 @@
 /**
- *@category Shared
+ * MongoDB-style ObjectId for Roblox with correct byte layout and string support.
  */
 export declare class MongoId {
     private static BaseIncrement;
@@ -11,11 +11,7 @@ export declare class MongoId {
     private Increment;
     Buffer: buffer;
     constructor(Timestamp?: number, Machine?: number, ProcessId?: number, Increment?: number);
-    private toString;
-    GenerateNextId(): MongoId;
-    /**
-     * @deprecated
-     */
-    static GenerateString(): string;
     static FromString(ID: string): MongoId;
+    GenerateNextId(): MongoId;
+    toString(): string;
 }

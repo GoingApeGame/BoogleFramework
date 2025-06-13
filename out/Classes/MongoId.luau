@@ -1,7 +1,7 @@
 -- Compiled with roblox-ts v3.0.0
 --[[
 	*
-	 *@category Shared
+	 * MongoDB-style ObjectId for Roblox with correct byte layout and string support.
 	 
 ]]
 local MongoId
@@ -40,18 +40,25 @@ do
 		end
 		self.Increment = _condition_3
 		self.Buffer = buffer.create(12)
-		buffer.writeu32(self.Buffer, 0, self.Timestamp)
+		-- Timestamp (4 bytes, big-endian)
+		buffer.writeu8(self.Buffer, 0, bit32.band((bit32.arshift(self.Timestamp, 24)), 0xff))
+		buffer.writeu8(self.Buffer, 1, bit32.band((bit32.arshift(self.Timestamp, 16)), 0xff))
+		buffer.writeu8(self.Buffer, 2, bit32.band((bit32.arshift(self.Timestamp, 8)), 0xff))
+		buffer.writeu8(self.Buffer, 3, bit32.band(self.Timestamp, 0xff))
+		-- Machine (3 bytes)
 		buffer.writeu8(self.Buffer, 4, bit32.band((bit32.arshift(self.Machine, 16)), 0xff))
 		buffer.writeu8(self.Buffer, 5, bit32.band((bit32.arshift(self.Machine, 8)), 0xff))
 		buffer.writeu8(self.Buffer, 6, bit32.band(self.Machine, 0xff))
-		buffer.writeu16(self.Buffer, 7, self.ProcessId)
+		-- ProcessId (2 bytes, big-endian)
+		buffer.writeu8(self.Buffer, 7, bit32.band((bit32.arshift(self.ProcessId, 8)), 0xff))
+		buffer.writeu8(self.Buffer, 8, bit32.band(self.ProcessId, 0xff))
+		-- Increment (3 bytes)
 		buffer.writeu8(self.Buffer, 9, bit32.band((bit32.arshift(self.Increment, 16)), 0xff))
 		buffer.writeu8(self.Buffer, 10, bit32.band((bit32.arshift(self.Increment, 8)), 0xff))
 		buffer.writeu8(self.Buffer, 11, bit32.band(self.Increment, 0xff))
 	end
 	function MongoId:getBaseMachine()
 		local JobId = game.JobId
-		-- Hash it into a 24-bit integer (basic FNV-1a-like hash)
 		local Hash = 0
 		for I = 0, #JobId - 1 do
 			local _arg0 = I + 1
@@ -59,19 +66,6 @@ do
 			Hash = bit32.band(bit32.bxor(Hash * 16777619, CharCode), 0xffffff)
 		end
 		return Hash
-	end
-	function MongoId:toString()
-		local TimestampHex = string.format("%08x", self.Timestamp)
-		local MachineHex = string.format("%06x", self.Machine)
-		local PidHex = string.format("%04x", self.ProcessId)
-		local IncrementHex = string.format("%06x", self.Increment)
-		return TimestampHex .. MachineHex .. PidHex .. IncrementHex
-	end
-	function MongoId:GenerateNextId()
-		return MongoId.new(self.Timestamp, self.Machine, self.ProcessId, bit32.band((self.Increment + 1), 0xffffff))
-	end
-	function MongoId:GenerateString()
-		return MongoId.new():toString()
 	end
 	function MongoId:FromString(ID)
 		if #ID ~= 24 then
@@ -88,14 +82,22 @@ do
 			end
 			buffer.writeu8(Buffer, I, Byte)
 		end
-		-- Extract values directly from buffer
-		local Timestamp = buffer.readu32(Buffer, 0)
+		-- Read fields manually (big-endian layout)
+		local Timestamp = bit32.bor(bit32.bor(bit32.bor((bit32.lshift(buffer.readu8(Buffer, 0), 24)), (bit32.lshift(buffer.readu8(Buffer, 1), 16))), (bit32.lshift(buffer.readu8(Buffer, 2), 8))), buffer.readu8(Buffer, 3))
 		local Machine = bit32.bor(bit32.bor((bit32.lshift(buffer.readu8(Buffer, 4), 16)), (bit32.lshift(buffer.readu8(Buffer, 5), 8))), buffer.readu8(Buffer, 6))
-		local ProcessId = buffer.readu16(Buffer, 7)
+		local ProcessId = bit32.bor((bit32.lshift(buffer.readu8(Buffer, 7), 8)), buffer.readu8(Buffer, 8))
 		local Increment = bit32.bor(bit32.bor((bit32.lshift(buffer.readu8(Buffer, 9), 16)), (bit32.lshift(buffer.readu8(Buffer, 10), 8))), buffer.readu8(Buffer, 11))
-		-- Construct a proper MongoId using these values
-		local Result = MongoId.new(Timestamp, Machine, ProcessId, Increment)
-		return Result
+		return MongoId.new(Timestamp, Machine, ProcessId, Increment)
+	end
+	function MongoId:GenerateNextId()
+		return MongoId.new(self.Timestamp, self.Machine, self.ProcessId, bit32.band((self.Increment + 1), 0xffffff))
+	end
+	function MongoId:toString()
+		local TimestampHex = string.format("%08x", self.Timestamp)
+		local MachineHex = string.format("%06x", self.Machine)
+		local PidHex = string.format("%04x", self.ProcessId)
+		local IncrementHex = string.format("%06x", self.Increment)
+		return TimestampHex .. MachineHex .. PidHex .. IncrementHex
 	end
 	function MongoId:__tostring()
 		return self:toString()
