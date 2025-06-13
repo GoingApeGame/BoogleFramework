@@ -12,7 +12,6 @@ export declare class MongoId {
     Buffer: buffer;
     constructor(Timestamp?: number, Machine?: number, ProcessId?: number, Increment?: number);
     private toString;
-    private Compare;
     GenerateNextId(): MongoId;
     /**
      * @deprecated

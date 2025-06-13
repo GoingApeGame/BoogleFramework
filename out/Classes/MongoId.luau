@@ -67,9 +67,6 @@ do
 		local IncrementHex = string.format("%06x", self.Increment)
 		return TimestampHex .. MachineHex .. PidHex .. IncrementHex
 	end
-	function MongoId:Compare(Other)
-		return self.Timestamp == Other.Timestamp and self.Machine == Other.Machine and self.ProcessId == Other.ProcessId and self.Increment == Other.Increment
-	end
 	function MongoId:GenerateNextId()
 		return MongoId.new(self.Timestamp, self.Machine, self.ProcessId, bit32.band((self.Increment + 1), 0xffffff))
 	end
@@ -104,6 +101,9 @@ do
 	end
 	MongoId.BaseIncrement = math.random(0, 0xffffff)
 	MongoId.BaseProcessId = math.random(0, 0xffff)
+end
+MongoId.__eq = function(A, B)
+	return tostring(A) == tostring(B)
 end
 return {
 	MongoId = MongoId,

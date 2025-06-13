@@ -57,15 +57,6 @@ export class MongoId {
 		return TimestampHex + MachineHex + PidHex + IncrementHex;
 	}
 
-	private Compare(Other: MongoId): boolean {
-		return (
-			this.Timestamp === Other.Timestamp &&
-			this.Machine === Other.Machine &&
-			this.ProcessId === Other.ProcessId &&
-			this.Increment === Other.Increment
-		);
-	}
-
 	public GenerateNextId(): MongoId {
 		return new MongoId(this.Timestamp, this.Machine, this.ProcessId, (this.Increment + 1) & 0xffffff);
 	}
@@ -105,3 +96,7 @@ export class MongoId {
 		return Parsed;
 	}
 }
+
+(MongoId as LuaMetatable<MongoId>).__eq = (A: MongoId, B: MongoId): boolean => {
+	return tostring(A) === tostring(B);
+};
