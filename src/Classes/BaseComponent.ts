@@ -1,10 +1,10 @@
 import Signal from "@rbxts/signal";
-import { MongoId } from "./MongoId";
 import { RunService } from "@rbxts/services";
+import { ObjectID } from "./ObjectID";
 
 export abstract class BaseComponent<T extends Instance> {
 	protected Instance: T;
-	public readonly ID = new MongoId();
+	public readonly ID = new ObjectID();
 
 	protected RenderStep: RBXScriptConnection | undefined;
 	protected Heartbeat: RBXScriptConnection | undefined;

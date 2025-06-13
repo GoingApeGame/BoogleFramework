@@ -1,14 +1,14 @@
 -- Compiled with roblox-ts v3.0.0
 local TS = _G[script]
 local Signal = TS.import(script, TS.getModule(script, "@rbxts", "signal"))
-local MongoId = TS.import(script, script.Parent, "MongoId").MongoId
+local ObjectID = TS.import(script, script.Parent, "ObjectID").ObjectID
 local RunService = TS.import(script, TS.getModule(script, "@rbxts", "services")).RunService
 local BaseComponent
 do
 	BaseComponent = {}
 	function BaseComponent:constructor(ComponentInstance)
 		self.ComponentInstance = ComponentInstance
-		self.ID = MongoId.new()
+		self.ID = ObjectID.new()
 		self.Destroyed = Signal.new()
 		self.Instance = ComponentInstance
 		self.Instance:SetAttribute(BaseComponent:GetAttributeName(), tostring(self.ID))

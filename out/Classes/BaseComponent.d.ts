@@ -1,9 +1,9 @@
 import Signal from "@rbxts/signal";
-import { MongoId } from "./MongoId";
+import { ObjectID } from "./ObjectID";
 export declare abstract class BaseComponent<T extends Instance> {
     protected ComponentInstance: T;
     protected Instance: T;
-    readonly ID: MongoId;
+    readonly ID: ObjectID;
     protected RenderStep: RBXScriptConnection | undefined;
     protected Heartbeat: RBXScriptConnection | undefined;
     readonly Destroyed: Signal<(Manual: boolean) => void, false>;

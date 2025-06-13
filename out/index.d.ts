@@ -1,6 +1,6 @@
 export { BaseComponent } from "./Classes/BaseComponent";
 export { BaseController } from "./Classes/BaseController";
-export { MongoId } from "./Classes/MongoId";
+export { ObjectID as MongoId } from "./Classes/ObjectID";
 export { ComponentController } from "./Controllers/ComponentController";
 export { BullshitHelpers } from "./Services/BullshitHelpers";
 export { ComponentService } from "./Services/ComponentService";

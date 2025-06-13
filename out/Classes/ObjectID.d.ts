@@ -1,7 +1,7 @@
 /**
  * MongoDB-style ObjectId for Roblox with correct byte layout and string support.
  */
-export declare class MongoId implements IMongoId {
+export declare class ObjectID {
     private static BaseIncrement;
     private static BaseProcessId;
     private static getBaseMachine;
@@ -15,7 +15,7 @@ export declare class MongoId implements IMongoId {
      * @deprecated
      */
     static GenerateString(): string;
-    static FromString(ID: string): MongoId;
-    GenerateNextId(): MongoId;
+    static FromString(ID: string): ObjectID;
+    GenerateNextId(): ObjectID;
     private toString;
 }
