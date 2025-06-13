@@ -17,7 +17,7 @@ interface ObjectIDModule {
 	 */
 	GenerateString(): string;
 
-	FromString<StringType extends string = string>(ID: StringType): ObjectID;
+	FromString<StringType extends string = string>(ID: StringType): ObjectID<StringType>;
 }
 
 export const ObjectID: ObjectIDModule;
