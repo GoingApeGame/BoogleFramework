@@ -17,5 +17,5 @@ export declare class MongoId implements IMongoId {
     static GenerateString(): string;
     static FromString(ID: string): MongoId;
     GenerateNextId(): MongoId;
-    toString(): string;
+    private toString;
 }

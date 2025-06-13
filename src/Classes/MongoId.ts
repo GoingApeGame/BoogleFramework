@@ -95,7 +95,7 @@ export class MongoId implements IMongoId {
 		return new MongoId(this.Timestamp, this.Machine, this.ProcessId, (this.Increment + 1) & 0xffffff);
 	}
 
-	public toString(): string {
+	private toString(): string {
 		const TimestampHex = string.format("%08x", this.Timestamp);
 		const MachineHex = string.format("%06x", this.Machine);
 		const PidHex = string.format("%04x", this.ProcessId);
