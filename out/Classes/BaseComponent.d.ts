@@ -3,7 +3,7 @@ import { ObjectID } from "./ObjectID";
 export declare abstract class BaseComponent<T extends Instance> {
     protected ComponentInstance: T;
     protected Instance: T;
-    readonly ID: ObjectID;
+    readonly ID: ObjectID<string>;
     protected RenderStep: RBXScriptConnection | undefined;
     protected Heartbeat: RBXScriptConnection | undefined;
     readonly Destroyed: Signal<(Manual: boolean) => void, false>;

@@ -6,7 +6,7 @@ declare const ObjectIDBrand: unique symbol;
  * A branded string representing a Mongo-style ObjectID.
  * Must be exactly 24 hex characters.
  */
-type ObjectID = string & { readonly [ObjectIDBrand]: true };
+type ObjectID<StringType extends string = string> = StringType & { readonly [ObjectIDBrand]: true };
 
 interface ObjectIDModule {
 	new (): ObjectID;
