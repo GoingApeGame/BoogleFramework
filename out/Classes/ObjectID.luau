@@ -35,7 +35,7 @@ function ObjectID.new(Timestamp, Machine, ProcessId, Increment)
 end
 
 function ObjectID.FromString(ID)
-	assert(#ID == 24, "Invalid ID length")
+	assert(#ID == 24, `Invalid ID length {ID} (expected 24 characters)`)
 	return ID
 end
 
