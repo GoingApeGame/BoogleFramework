@@ -11,6 +11,10 @@ export declare class MongoId {
     private Increment;
     Buffer: buffer;
     constructor(Timestamp?: number, Machine?: number, ProcessId?: number, Increment?: number);
+    /**
+     * @deprecated
+     */
+    static GenerateString(): string;
     static FromString(ID: string): MongoId;
     GenerateNextId(): MongoId;
     toString(): string;

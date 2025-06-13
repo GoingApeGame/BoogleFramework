@@ -67,6 +67,9 @@ do
 		end
 		return Hash
 	end
+	function MongoId:GenerateString()
+		return tostring(MongoId.new())
+	end
 	function MongoId:FromString(ID)
 		if #ID ~= 24 then
 			error("Invalid MongoId format: must be 24 characters long")

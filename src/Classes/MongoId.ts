@@ -53,6 +53,13 @@ export class MongoId {
 		buffer.writeu8(this.Buffer, 11, this.Increment & 0xff);
 	}
 
+	/**
+	 * @deprecated
+	 */
+	public static GenerateString(): string {
+		return tostring(new MongoId());
+	}
+
 	public static FromString(ID: string): MongoId {
 		if (ID.size() !== 24) {
 			throw "Invalid MongoId format: must be 24 characters long";
