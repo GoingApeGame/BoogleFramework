@@ -52,4 +52,6 @@ function ObjectID.GenerateNext(ID)
 	return BuildObjectID(Timestamp, Machine, ProcessId, (Increment + 1) % 0xffffff)
 end
 
-return ObjectID
+return {
+	ObjectID = ObjectID,
+}

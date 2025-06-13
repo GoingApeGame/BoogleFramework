@@ -17,6 +17,12 @@ interface ObjectIDModule {
 	 */
 	GenerateString(): string;
 
+	/**
+	 * Generates the next ObjectID in the list.
+	 * @deprecated
+	 */
+	GenerateNext(): string;
+
 	FromString<StringType extends string = string>(ID: StringType): ObjectID<StringType>;
 }
 
