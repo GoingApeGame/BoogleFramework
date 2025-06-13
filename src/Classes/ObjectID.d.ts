@@ -1,6 +1,12 @@
 // ObjectID.d.ts
 
-type ObjectID = string & { readonly __brand: "MongoId" };
+declare const ObjectIDBrand: unique symbol;
+
+/**
+ * A branded string representing a Mongo-style ObjectID.
+ * Must be exactly 24 hex characters.
+ */
+type ObjectID = string & { readonly [ObjectIDBrand]: true };
 
 interface ObjectIDModule {
 	new (): ObjectID;
