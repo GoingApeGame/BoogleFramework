@@ -1,8 +1,8 @@
 -- Compiled with roblox-ts v3.0.0
+local TS = _G[script]
 --[[
 	*
-	 * A definitely inaccurate implementation of a MongoDB ObjectId.
-	 * But it's good enough for most use cases.
+	 *@category Shared
 	 
 ]]
 local MongoId
@@ -17,66 +17,102 @@ do
 		local self = setmetatable({}, MongoId)
 		return self:constructor(...) or self
 	end
-	function MongoId:constructor(Id)
-		local _condition = Id
-		if _condition ~= "" and _condition then
-			_condition = #Id == 24
+	function MongoId:constructor(Timestamp, Machine, ProcessId, Increment)
+		local _condition = Timestamp
+		if _condition == nil then
+			_condition = math.floor(DateTime.now().UnixTimestamp)
 		end
-		if _condition ~= "" and _condition then
-			-- Parse from string
-			self.Timestamp = tonumber(string.sub(Id, 1, 8), 16)
-			self.Machine = tonumber(string.sub(Id, 9, 14), 16)
-			self.Pid = tonumber(string.sub(Id, 15, 18), 16)
-			self.Increment = tonumber(string.sub(Id, 19, 24), 16)
-		elseif Id == nil then
-			-- Default generation
-			self.Timestamp = math.floor(os.time())
-			self.Machine = MongoId.Machine
-			self.Pid = MongoId.Pid
-			local _original = MongoId.Increment
-			MongoId.Increment += 1
-			self.Increment = _original
-			if MongoId.Increment > 0xffffff then
-				MongoId.Increment = 0
-			end
-		else
-			error("Invalid MongoId string.")
+		self.Timestamp = _condition
+		local _condition_1 = Machine
+		if _condition_1 == nil then
+			_condition_1 = MongoId:getBaseMachine()
 		end
+		self.Machine = _condition_1
+		local _condition_2 = ProcessId
+		if _condition_2 == nil then
+			_condition_2 = MongoId.BaseProcessId
+		end
+		self.ProcessId = _condition_2
+		local _condition_3 = Increment
+		if _condition_3 == nil then
+			local _original = MongoId.BaseIncrement
+			MongoId.BaseIncrement += 1
+			_condition_3 = bit32.band(_original, 0xffffff)
+		end
+		self.Increment = _condition_3
+		self.Buffer = buffer.create(12)
+		buffer.writeu32(self.Buffer, 0, self.Timestamp)
+		buffer.writeu8(self.Buffer, 4, bit32.band((bit32.arshift(self.Machine, 16)), 0xff))
+		buffer.writeu8(self.Buffer, 5, bit32.band((bit32.arshift(self.Machine, 8)), 0xff))
+		buffer.writeu8(self.Buffer, 6, bit32.band(self.Machine, 0xff))
+		buffer.writeu16(self.Buffer, 7, self.ProcessId)
+		buffer.writeu8(self.Buffer, 9, bit32.band((bit32.arshift(self.Increment, 16)), 0xff))
+		buffer.writeu8(self.Buffer, 10, bit32.band((bit32.arshift(self.Increment, 8)), 0xff))
+		buffer.writeu8(self.Buffer, 11, bit32.band(self.Increment, 0xff))
+		setmetatable(self, {
+			__eq = function(A, B)
+				if TS.instanceof(A, MongoId) and TS.instanceof(B, MongoId) then
+					return A:Compare(B)
+				end
+				return false
+			end,
+		})
 	end
-	function MongoId:GenerateString()
-		return MongoId.new():ToString()
+	function MongoId:getBaseMachine()
+		local JobId = game.JobId
+		-- Hash it into a 24-bit integer (basic FNV-1a-like hash)
+		local Hash = 0
+		for I = 0, #JobId - 1 do
+			local _arg0 = I + 1
+			local CharCode = (string.byte(JobId, _arg0))
+			Hash = bit32.band(bit32.bxor(Hash * 16777619, CharCode), 0xffffff)
+		end
+		return Hash
 	end
-	function MongoId:ToString()
+	function MongoId:toString()
 		local TimestampHex = string.format("%08x", self.Timestamp)
 		local MachineHex = string.format("%06x", self.Machine)
-		local PidHex = string.format("%04x", self.Pid)
+		local PidHex = string.format("%04x", self.ProcessId)
 		local IncrementHex = string.format("%06x", self.Increment)
 		return TimestampHex .. MachineHex .. PidHex .. IncrementHex
 	end
-	function MongoId:Equals(Id)
-		local _id = Id
-		if type(_id) == "string" then
-			Id = MongoId.new(Id)
+	function MongoId:Compare(Other)
+		return self.Timestamp == Other.Timestamp and self.Machine == Other.Machine and self.ProcessId == Other.ProcessId and self.Increment == Other.Increment
+	end
+	function MongoId:GenerateNextId()
+		return MongoId.new(self.Timestamp, self.Machine, self.ProcessId, bit32.band((self.Increment + 1), 0xffffff))
+	end
+	function MongoId:GenerateString()
+		return MongoId.new():toString()
+	end
+	function MongoId:FromString(ID)
+		if #ID ~= 24 then
+			error("Invalid MongoId format: must be 24 characters long")
 		end
-		return self.Timestamp == Id.Timestamp and self.Machine == Id.Machine and self.Pid == Id.Pid and self.Increment == Id.Increment
-	end
-	function MongoId:GetDate()
-		return DateTime.fromUnixTimestamp(self.Timestamp)
-	end
-	function MongoId:ToArray()
-		local StrId = self:ToString()
-		local Array = {}
+		local Buffer = buffer.create(12)
 		for I = 0, 11 do
+			local _iD = ID
 			local _arg0 = I * 2 + 1
 			local _arg1 = I * 2 + 2
-			local _arg0_1 = tonumber(string.sub(StrId, _arg0, _arg1), 16)
-			table.insert(Array, _arg0_1)
+			local Byte = tonumber(string.sub(_iD, _arg0, _arg1), 16)
+			if Byte == nil or Byte ~= Byte then
+				error("Invalid MongoId hex digit")
+			end
+			buffer.writeu8(Buffer, I, Byte)
 		end
-		return Array
+		local Parsed = MongoId.new()
+		Parsed.Buffer = Buffer
+		Parsed.Timestamp = buffer.readu32(Buffer, 0)
+		Parsed.Machine = bit32.bor(bit32.bor((bit32.lshift(buffer.readu8(Buffer, 4), 16)), (bit32.lshift(buffer.readu8(Buffer, 5), 8))), buffer.readu8(Buffer, 6))
+		Parsed.ProcessId = buffer.readu16(Buffer, 7)
+		Parsed.Increment = bit32.bor(bit32.bor((bit32.lshift(buffer.readu8(Buffer, 9), 16)), (bit32.lshift(buffer.readu8(Buffer, 10), 8))), buffer.readu8(Buffer, 11))
+		return Parsed
 	end
-	MongoId.Increment = math.random(0, 0xffffff)
-	MongoId.Pid = math.random(0, 0xffff)
-	MongoId.Machine = math.random(0, 0xffffff)
+	function MongoId:__tostring()
+		return self:toString()
+	end
+	MongoId.BaseIncrement = math.random(0, 0xffffff)
+	MongoId.BaseProcessId = math.random(0, 0xffff)
 end
 return {
 	MongoId = MongoId,

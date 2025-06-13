@@ -4,24 +4,17 @@ import { RunService } from "@rbxts/services";
 
 export abstract class BaseComponent<T extends Instance> {
 	protected Instance: T;
-	public readonly ID = MongoId.GenerateString();
+	public readonly ID = new MongoId();
 
 	protected RenderStep: RBXScriptConnection | undefined;
 	protected Heartbeat: RBXScriptConnection | undefined;
 
 	public readonly Destroyed = new Signal<(Manual: boolean) => void>();
 
-	constructor(
-		protected ComponentInstance: T,
-		ID?: string,
-	) {
+	constructor(protected ComponentInstance: T) {
 		this.Instance = ComponentInstance;
 
-		if (ID) {
-			this.ID = ID;
-		}
-
-		this.Instance.SetAttribute(BaseComponent.GetAttributeName(), this.ID);
+		this.Instance.SetAttribute(BaseComponent.GetAttributeName(), tostring(this.ID));
 	}
 
 	public static GetAttributeName() {

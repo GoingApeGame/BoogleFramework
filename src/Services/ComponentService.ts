@@ -115,6 +115,6 @@ export abstract class ComponentService {
 	}
 
 	public static GetComponentByID<T extends BaseComponent<Instance>>(ID: string): T | undefined {
-		return this.Components.find((Component) => Component.ID === ID) as T | undefined;
+		return this.Components.find((Component) => tostring(Component.ID) === ID) as T | undefined;
 	}
 }

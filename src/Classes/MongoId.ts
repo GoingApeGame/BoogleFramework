@@ -1,87 +1,116 @@
 /**
- * A definitely inaccurate implementation of a MongoDB ObjectId.
- * But it's good enough for most use cases.
+ *@category Shared
  */
 export class MongoId {
-	private static Increment = math.random(0, 0xffffff);
-	private static Pid = math.random(0, 0xffff);
-	private static Machine = math.random(0, 0xffffff);
+	private static BaseIncrement = math.random(0, 0xffffff);
+	private static BaseProcessId = math.random(0, 0xffff);
 
-	public Timestamp: number;
-	public Machine: number;
-	public Pid: number;
-	public Increment: number;
+	private static getBaseMachine(): number {
+		const JobId = game.JobId;
 
-	constructor(Id?: string) {
-		if (Id && Id.size() === 24) {
-			// Parse from string
-			this.Timestamp = tonumber(Id.sub(1, 8), 16) as number;
-			this.Machine = tonumber(Id.sub(9, 14), 16) as number;
-			this.Pid = tonumber(Id.sub(15, 18), 16) as number;
-			this.Increment = tonumber(Id.sub(19, 24), 16) as number;
-		} else if (Id === undefined) {
-			// Default generation
-			this.Timestamp = math.floor(os.time());
-			this.Machine = MongoId.Machine;
-			this.Pid = MongoId.Pid;
-			this.Increment = MongoId.Increment++;
-			if (MongoId.Increment > 0xffffff) {
-				MongoId.Increment = 0;
-			}
-		} else {
-			throw "Invalid MongoId string.";
+		// Hash it into a 24-bit integer (basic FNV-1a-like hash)
+		let Hash = 0;
+
+		for (let I = 0; I < JobId.size(); I++) {
+			const CharCode = JobId.byte(I + 1)[0]; // Lua strings are 1-indexed
+			Hash = bit32.band(bit32.bxor(Hash * 16777619, CharCode), 0xffffff);
 		}
+
+		return Hash;
 	}
 
-	public static GenerateString(): string {
-		return new MongoId().ToString();
+	private Timestamp: number;
+	private Machine: number;
+	private ProcessId: number;
+	private Increment: number;
+
+	public Buffer: buffer;
+
+	public constructor(Timestamp?: number, Machine?: number, ProcessId?: number, Increment?: number) {
+		this.Timestamp = Timestamp ?? math.floor(DateTime.now().UnixTimestamp);
+		this.Machine = Machine ?? MongoId.getBaseMachine();
+		this.ProcessId = ProcessId ?? MongoId.BaseProcessId;
+		this.Increment = Increment ?? MongoId.BaseIncrement++ & 0xffffff;
+
+		this.Buffer = buffer.create(12);
+
+		buffer.writeu32(this.Buffer, 0, this.Timestamp);
+
+		buffer.writeu8(this.Buffer, 4, (this.Machine >> 16) & 0xff);
+		buffer.writeu8(this.Buffer, 5, (this.Machine >> 8) & 0xff);
+		buffer.writeu8(this.Buffer, 6, this.Machine & 0xff);
+
+		buffer.writeu16(this.Buffer, 7, this.ProcessId);
+
+		buffer.writeu8(this.Buffer, 9, (this.Increment >> 16) & 0xff);
+		buffer.writeu8(this.Buffer, 10, (this.Increment >> 8) & 0xff);
+		buffer.writeu8(this.Buffer, 11, this.Increment & 0xff);
+
+		setmetatable(this, {
+			__eq: (A, B) => {
+				if (A instanceof MongoId && B instanceof MongoId) {
+					return A.Compare(B);
+				}
+				return false;
+			},
+		});
 	}
 
-	/**
-	 * Converts the MongoId to a 24-character hexadecimal string.
-	 * @returns {string} The MongoId as a 24-character string.
-	 */
-	public ToString(): string {
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	private toString(): string {
 		const TimestampHex = string.format("%08x", this.Timestamp);
 		const MachineHex = string.format("%06x", this.Machine);
-		const PidHex = string.format("%04x", this.Pid);
+		const PidHex = string.format("%04x", this.ProcessId);
 		const IncrementHex = string.format("%06x", this.Increment);
+
 		return TimestampHex + MachineHex + PidHex + IncrementHex;
 	}
 
-	/**
-	 * Compares this MongoId to another MongoId / string.
-	 */
-	public Equals(Id: MongoId | string): boolean {
-		if (typeIs(Id, "string")) {
-			Id = new MongoId(Id);
-		}
+	private Compare(Other: MongoId): boolean {
 		return (
-			this.Timestamp === Id.Timestamp &&
-			this.Machine === Id.Machine &&
-			this.Pid === Id.Pid &&
-			this.Increment === Id.Increment
+			this.Timestamp === Other.Timestamp &&
+			this.Machine === Other.Machine &&
+			this.ProcessId === Other.ProcessId &&
+			this.Increment === Other.Increment
 		);
 	}
 
-	/**
-	 * Gets the date represented by this MongoId.
-	 * @returns {DateTime} The date of the MongoId.
-	 */
-	public GetDate(): DateTime {
-		return DateTime.fromUnixTimestamp(this.Timestamp);
+	public GenerateNextId(): MongoId {
+		return new MongoId(this.Timestamp, this.Machine, this.ProcessId, (this.Increment + 1) & 0xffffff);
 	}
 
 	/**
-	 * Converts the MongoId to an array of bytes.
-	 * @returns {number[]} The MongoId as a byte array.
+	 * @deprecated
 	 */
-	public ToArray(): number[] {
-		const StrId = this.ToString();
-		const Array: number[] = [];
-		for (let I = 0; I < 12; I++) {
-			Array.push(tonumber(StrId.sub(I * 2 + 1, I * 2 + 2), 16) as number);
+	public static GenerateString(): string {
+		return new MongoId().toString();
+	}
+
+	public static FromString(ID: string): MongoId {
+		if (ID.size() !== 24) {
+			throw "Invalid MongoId format: must be 24 characters long";
 		}
-		return Array;
+
+		const Buffer = buffer.create(12);
+		for (let I = 0; I < 12; I++) {
+			const Byte = tonumber(ID.sub(I * 2 + 1, I * 2 + 2), 16);
+			if (Byte === undefined || Byte !== Byte) {
+				throw "Invalid MongoId hex digit";
+			}
+			buffer.writeu8(Buffer, I, Byte);
+		}
+
+		const Parsed = new MongoId();
+		Parsed.Buffer = Buffer;
+
+		Parsed.Timestamp = buffer.readu32(Buffer, 0);
+		Parsed.Machine = (buffer.readu8(Buffer, 4) << 16) | (buffer.readu8(Buffer, 5) << 8) | buffer.readu8(Buffer, 6);
+
+		Parsed.ProcessId = buffer.readu16(Buffer, 7);
+
+		Parsed.Increment =
+			(buffer.readu8(Buffer, 9) << 16) | (buffer.readu8(Buffer, 10) << 8) | buffer.readu8(Buffer, 11);
+
+		return Parsed;
 	}
 }

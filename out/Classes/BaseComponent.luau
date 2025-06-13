@@ -6,15 +6,12 @@ local RunService = TS.import(script, TS.getModule(script, "@rbxts", "services"))
 local BaseComponent
 do
 	BaseComponent = {}
-	function BaseComponent:constructor(ComponentInstance, ID)
+	function BaseComponent:constructor(ComponentInstance)
 		self.ComponentInstance = ComponentInstance
-		self.ID = MongoId:GenerateString()
+		self.ID = MongoId.new()
 		self.Destroyed = Signal.new()
 		self.Instance = ComponentInstance
-		if ID ~= "" and ID then
-			self.ID = ID
-		end
-		self.Instance:SetAttribute(BaseComponent:GetAttributeName(), self.ID)
+		self.Instance:SetAttribute(BaseComponent:GetAttributeName(), tostring(self.ID))
 	end
 	function BaseComponent:GetAttributeName()
 		local RunTimeMode = RunService:IsClient()

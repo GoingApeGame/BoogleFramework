@@ -180,7 +180,7 @@ do
 		local _exp = self.Components
 		-- ▼ ReadonlyArray.find ▼
 		local _callback = function(Component)
-			return Component.ID == ID
+			return tostring(Component.ID) == ID
 		end
 		local _result
 		for _i, _v in _exp do
