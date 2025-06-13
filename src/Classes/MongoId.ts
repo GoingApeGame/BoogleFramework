@@ -82,18 +82,16 @@ export class MongoId {
 			buffer.writeu8(Buffer, I, Byte);
 		}
 
-		const Parsed = new MongoId();
-		Parsed.Buffer = Buffer;
-
-		Parsed.Timestamp = buffer.readu32(Buffer, 0);
-		Parsed.Machine = (buffer.readu8(Buffer, 4) << 16) | (buffer.readu8(Buffer, 5) << 8) | buffer.readu8(Buffer, 6);
-
-		Parsed.ProcessId = buffer.readu16(Buffer, 7);
-
-		Parsed.Increment =
+		// Extract values directly from buffer
+		const Timestamp = buffer.readu32(Buffer, 0);
+		const Machine = (buffer.readu8(Buffer, 4) << 16) | (buffer.readu8(Buffer, 5) << 8) | buffer.readu8(Buffer, 6);
+		const ProcessId = buffer.readu16(Buffer, 7);
+		const Increment =
 			(buffer.readu8(Buffer, 9) << 16) | (buffer.readu8(Buffer, 10) << 8) | buffer.readu8(Buffer, 11);
 
-		return Parsed;
+		// Construct a proper MongoId using these values
+		const Result = new MongoId(Timestamp, Machine, ProcessId, Increment);
+		return Result;
 	}
 }
 

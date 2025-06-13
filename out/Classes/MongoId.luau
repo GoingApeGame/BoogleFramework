@@ -88,13 +88,14 @@ do
 			end
 			buffer.writeu8(Buffer, I, Byte)
 		end
-		local Parsed = MongoId.new()
-		Parsed.Buffer = Buffer
-		Parsed.Timestamp = buffer.readu32(Buffer, 0)
-		Parsed.Machine = bit32.bor(bit32.bor((bit32.lshift(buffer.readu8(Buffer, 4), 16)), (bit32.lshift(buffer.readu8(Buffer, 5), 8))), buffer.readu8(Buffer, 6))
-		Parsed.ProcessId = buffer.readu16(Buffer, 7)
-		Parsed.Increment = bit32.bor(bit32.bor((bit32.lshift(buffer.readu8(Buffer, 9), 16)), (bit32.lshift(buffer.readu8(Buffer, 10), 8))), buffer.readu8(Buffer, 11))
-		return Parsed
+		-- Extract values directly from buffer
+		local Timestamp = buffer.readu32(Buffer, 0)
+		local Machine = bit32.bor(bit32.bor((bit32.lshift(buffer.readu8(Buffer, 4), 16)), (bit32.lshift(buffer.readu8(Buffer, 5), 8))), buffer.readu8(Buffer, 6))
+		local ProcessId = buffer.readu16(Buffer, 7)
+		local Increment = bit32.bor(bit32.bor((bit32.lshift(buffer.readu8(Buffer, 9), 16)), (bit32.lshift(buffer.readu8(Buffer, 10), 8))), buffer.readu8(Buffer, 11))
+		-- Construct a proper MongoId using these values
+		local Result = MongoId.new(Timestamp, Machine, ProcessId, Increment)
+		return Result
 	end
 	function MongoId:__tostring()
 		return self:toString()
