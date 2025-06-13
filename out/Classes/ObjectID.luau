@@ -18,7 +18,7 @@ local function Pack(Timestamp, Machine, ProcessId, Increment)
 	return string.format("%08x%06x%04x%06x", Timestamp, Machine, ProcessId, Increment)
 end
 
-local ObjectID = function(Timestamp, Machine, ProcessId, Increment)
+local BuildObjectID = function(Timestamp, Machine, ProcessId, Increment)
 	Timestamp = Timestamp or math.floor(os.time())
 	Machine = Machine or BaseMachine
 	ProcessId = ProcessId or BaseProcessId
@@ -28,8 +28,10 @@ local ObjectID = function(Timestamp, Machine, ProcessId, Increment)
 	return Pack(Timestamp, Machine, ProcessId, Increment)
 end
 
+local ObjectID = {}
+
 function ObjectID.new(Timestamp, Machine, ProcessId, Increment)
-	return ObjectID(Timestamp, Machine, ProcessId, Increment)
+	return BuildObjectID(Timestamp, Machine, ProcessId, Increment)
 end
 
 function ObjectID.FromString(ID)
@@ -38,7 +40,7 @@ function ObjectID.FromString(ID)
 end
 
 function ObjectID.GenerateString()
-	return ObjectID()
+	return BuildObjectID()
 end
 
 function ObjectID.GenerateNext(ID)
@@ -47,7 +49,7 @@ function ObjectID.GenerateNext(ID)
 	local ProcessId = tonumber(ID:sub(15, 18), 16)
 	local Increment = tonumber(ID:sub(19, 24), 16)
 
-	return ObjectID(Timestamp, Machine, ProcessId, (Increment + 1) % 0xffffff)
+	return BuildObjectID(Timestamp, Machine, ProcessId, (Increment + 1) % 0xffffff)
 end
 
 return ObjectID
