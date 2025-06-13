@@ -45,15 +45,6 @@ export class MongoId {
 		buffer.writeu8(this.Buffer, 9, (this.Increment >> 16) & 0xff);
 		buffer.writeu8(this.Buffer, 10, (this.Increment >> 8) & 0xff);
 		buffer.writeu8(this.Buffer, 11, this.Increment & 0xff);
-
-		setmetatable(this, {
-			__eq: (A, B) => {
-				if (A instanceof MongoId && B instanceof MongoId) {
-					return A.Compare(B);
-				}
-				return false;
-			},
-		});
 	}
 
 	// eslint-disable-next-line @typescript-eslint/naming-convention

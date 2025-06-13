@@ -1,5 +1,4 @@
 -- Compiled with roblox-ts v3.0.0
-local TS = _G[script]
 --[[
 	*
 	 *@category Shared
@@ -49,14 +48,6 @@ do
 		buffer.writeu8(self.Buffer, 9, bit32.band((bit32.arshift(self.Increment, 16)), 0xff))
 		buffer.writeu8(self.Buffer, 10, bit32.band((bit32.arshift(self.Increment, 8)), 0xff))
 		buffer.writeu8(self.Buffer, 11, bit32.band(self.Increment, 0xff))
-		setmetatable(self, {
-			__eq = function(A, B)
-				if TS.instanceof(A, MongoId) and TS.instanceof(B, MongoId) then
-					return A:Compare(B)
-				end
-				return false
-			end,
-		})
 	end
 	function MongoId:getBaseMachine()
 		local JobId = game.JobId
