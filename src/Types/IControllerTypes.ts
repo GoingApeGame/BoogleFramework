@@ -1,7 +1,7 @@
-declare interface RenderStep {
+export interface RenderStep {
 	RenderStep(DeltaTime: number): void;
 }
 
-declare interface PhysicsStep {
+export interface PhysicsStep {
 	PhysicsStep(DeltaTime: number): void;
 }

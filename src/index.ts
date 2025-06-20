@@ -8,3 +8,4 @@ export { Localizer } from "./Services/Localizer";
 export { PlayerAttributesHandler } from "./Services/PlayerAttributesHandler";
 export { ReplicatedAssetService } from "./Services/ReplicatedAssetService";
 export { GameStarter } from "./Classes/GameStarter";
+export { PhysicsStep, RenderStep } from "./Types/IControllerTypes";

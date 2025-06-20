@@ -2,6 +2,7 @@ import { RunService } from "@rbxts/services";
 import { BullshitHelpers } from "../Services/BullshitHelpers";
 import { IControllerRegistry } from "../Types/IControllerRegistry";
 import { BaseController } from "./BaseController";
+import { PhysicsStep, RenderStep } from "../Types/IControllerTypes";
 
 export abstract class GameStarter {
 	public static GameName = game.Name;
