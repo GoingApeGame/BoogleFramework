@@ -1,3 +1,4 @@
+export { StepHandler } from "./Classes/StepHandler";
 export { BaseComponent } from "./Classes/BaseComponent";
 export { BaseController } from "./Classes/BaseController";
 export { ObjectID } from "./Classes/ObjectID";

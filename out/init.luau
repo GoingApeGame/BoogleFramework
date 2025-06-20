@@ -1,6 +1,7 @@
 -- Compiled with roblox-ts v3.0.0
 local TS = _G[script]
 local exports = {}
+exports.StepHandler = TS.import(script, script, "Classes", "StepHandler").StepHandler
 exports.BaseComponent = TS.import(script, script, "Classes", "BaseComponent").BaseComponent
 exports.BaseController = TS.import(script, script, "Classes", "BaseController").BaseController
 exports.ObjectID = TS.import(script, script, "Classes", "ObjectID").ObjectID
