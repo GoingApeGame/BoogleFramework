@@ -1,5 +1,6 @@
 -- Compiled with roblox-ts v3.0.0
 local TS = _G[script]
+local RunService = TS.import(script, TS.getModule(script, "@rbxts", "services")).RunService
 local BullshitHelpers = TS.import(script, script.Parent.Parent, "Services", "BullshitHelpers").BullshitHelpers
 local GameStarter
 do
@@ -31,6 +32,18 @@ do
 		-- ▼ ReadonlyMap.forEach ▼
 		local _callback = function(Controller)
 			Controller:Initialize()
+			local RenderStep = rawget(Controller, "RenderStep")
+			local PhysicsStep = rawget(Controller, "PhysicsStep")
+			if RenderStep then
+				local _renderStepControllers = self.RenderStepControllers
+				local _arg0 = Controller:GetName()
+				_renderStepControllers[_arg0] = RenderStep
+			end
+			if PhysicsStep then
+				local _physicsStepControllers = self.PhysicsStepControllers
+				local _arg0 = Controller:GetName()
+				_physicsStepControllers[_arg0] = PhysicsStep
+			end
 		end
 		for _k, _v in _exp do
 			_callback(_v, _k, _exp)
@@ -45,6 +58,60 @@ do
 			_callback_1(_v, _k, _exp_1)
 		end
 		-- ▲ ReadonlyMap.forEach ▲
+		-- ▼ ReadonlyMap.size ▼
+		local _size = 0
+		for _ in self.RenderStepControllers do
+			_size += 1
+		end
+		-- ▲ ReadonlyMap.size ▲
+		if _size > 0 then
+			if RunService:IsClient() then
+				RunService.RenderStepped:Connect(function(DeltaTime)
+					local _exp_2 = self.RenderStepControllers
+					-- ▼ ReadonlyMap.forEach ▼
+					local _callback_2 = function(RenderStep)
+						if RenderStep then
+							RenderStep(DeltaTime)
+						end
+					end
+					for _k, _v in _exp_2 do
+						_callback_2(_v, _k, _exp_2)
+					end
+					-- ▲ ReadonlyMap.forEach ▲
+				end)
+			else
+				-- ▼ ReadonlyMap.size ▼
+				local _size_1 = 0
+				for _ in self.PhysicsStepControllers do
+					_size_1 += 1
+				end
+				-- ▲ ReadonlyMap.size ▲
+				if _size_1 > 0 then
+					error("PhysicsStep is not supported on the server")
+				end
+			end
+		end
+		-- ▼ ReadonlyMap.size ▼
+		local _size_1 = 0
+		for _ in self.PhysicsStepControllers do
+			_size_1 += 1
+		end
+		-- ▲ ReadonlyMap.size ▲
+		if _size_1 > 0 then
+			RunService.Heartbeat:Connect(function(DeltaTime)
+				local _exp_2 = self.PhysicsStepControllers
+				-- ▼ ReadonlyMap.forEach ▼
+				local _callback_2 = function(PhysicsStep)
+					if PhysicsStep then
+						PhysicsStep(DeltaTime)
+					end
+				end
+				for _k, _v in _exp_2 do
+					_callback_2(_v, _k, _exp_2)
+				end
+				-- ▲ ReadonlyMap.forEach ▲
+			end)
+		end
 	end
 	function GameStarter:AfterStart()
 		BullshitHelpers:LogSuccess(`{GameStarter.GameName} {GameStarter.GameVersion} started in {BullshitHelpers:RoundToDecimal(os.clock() - self.StartedTime, 3)} seconds`)
@@ -53,6 +120,8 @@ do
 	GameStarter.GameVersion = game.PlaceVersion
 	GameStarter.StartedTime = 0
 	GameStarter.Controllers = {}
+	GameStarter.RenderStepControllers = {}
+	GameStarter.PhysicsStepControllers = {}
 end
 return {
 	GameStarter = GameStarter,

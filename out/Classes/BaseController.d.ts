@@ -1,6 +1,4 @@
 export declare abstract class BaseController {
-    protected RenderSignal: RBXScriptConnection | undefined;
-    protected HeartbeatSignal: RBXScriptConnection | undefined;
     protected IsInitialized: boolean;
     protected InitializedTime: number;
     constructor();
@@ -12,7 +10,8 @@ export declare abstract class BaseController {
     PlayerAddedCharacter(Player: Player, Character: Model): void;
     PlayerRemovingCharacter(Player: Player, Character: Model): void;
     GetName(): string;
-    protected RenderStep(DeltaTime: number): void;
-    protected PhysicsStep(DeltaTime: number): void;
+    /**
+     * @deprecated
+     */
     protected InitializeSteps(): void;
 }

@@ -2,9 +2,6 @@ import { Players, RunService } from "@rbxts/services";
 import { BullshitHelpers } from "../Services/BullshitHelpers";
 
 export abstract class BaseController {
-	protected RenderSignal: RBXScriptConnection | undefined;
-	protected HeartbeatSignal: RBXScriptConnection | undefined;
-
 	protected IsInitialized = false;
 
 	protected InitializedTime = 0;
@@ -74,23 +71,10 @@ export abstract class BaseController {
 		return tostring(getmetatable(this));
 	}
 
-	protected RenderStep(DeltaTime: number): void {}
-
-	protected PhysicsStep(DeltaTime: number): void {}
-
+	/**
+	 * @deprecated
+	 */
 	protected InitializeSteps() {
-		if (RunService.IsClient()) {
-			this.RenderSignal = RunService.PreRender.Connect((DT) => {
-				debug.profilebegin(`${this.GetName()} RenderStep`);
-				this.RenderStep(DT);
-				debug.profileend();
-			});
-		}
-
-		this.HeartbeatSignal = RunService.Heartbeat.Connect((DT) => {
-			debug.profilebegin(`${this.GetName()} PhysicsStep`);
-			this.PhysicsStep(DT);
-			debug.profileend();
-		});
+		throw `${this.GetName()} is still using the deprecated InitializeSteps method. Please implement RenderStep and PhysicsStep interfaces instead.`;
 	}
 }

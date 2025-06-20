@@ -1,8 +1,6 @@
 -- Compiled with roblox-ts v3.0.0
 local TS = _G[script]
-local _services = TS.import(script, TS.getModule(script, "@rbxts", "services"))
-local Players = _services.Players
-local RunService = _services.RunService
+local Players = TS.import(script, TS.getModule(script, "@rbxts", "services")).Players
 local BullshitHelpers = TS.import(script, script.Parent.Parent, "Services", "BullshitHelpers").BullshitHelpers
 local BaseController
 do
@@ -65,23 +63,8 @@ do
 	function BaseController:GetName()
 		return tostring((getmetatable(self)))
 	end
-	function BaseController:RenderStep(DeltaTime)
-	end
-	function BaseController:PhysicsStep(DeltaTime)
-	end
 	function BaseController:InitializeSteps()
-		if RunService:IsClient() then
-			self.RenderSignal = RunService.PreRender:Connect(function(DT)
-				debug.profilebegin(`{self:GetName()} RenderStep`)
-				self:RenderStep(DT)
-				debug.profileend()
-			end)
-		end
-		self.HeartbeatSignal = RunService.Heartbeat:Connect(function(DT)
-			debug.profilebegin(`{self:GetName()} PhysicsStep`)
-			self:PhysicsStep(DT)
-			debug.profileend()
-		end)
+		error(`{self:GetName()} is still using the deprecated InitializeSteps method. Please implement RenderStep and PhysicsStep interfaces instead.`)
 	end
 end
 return {
