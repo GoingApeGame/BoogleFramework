@@ -18,8 +18,6 @@ export abstract class BaseController {
 
 		BullshitHelpers.LogWarning(`Initializing ${this.GetName()}`);
 
-		this.InitializeSteps();
-
 		Players.GetPlayers().forEach((Player) => {
 			this._PlayerAdded(Player);
 		});

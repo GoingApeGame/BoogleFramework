@@ -16,7 +16,6 @@ do
 		end
 		self.InitializedTime = os.clock()
 		BullshitHelpers:LogWarning(`Initializing {self:GetName()}`)
-		self:InitializeSteps()
 		local _exp = Players:GetPlayers()
 		-- ▼ ReadonlyArray.forEach ▼
 		local _callback = function(Player)
