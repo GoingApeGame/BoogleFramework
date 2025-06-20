@@ -47,35 +47,7 @@ do
 		end
 		self.Instance:AddTag(ComponentName)
 	end
-	function BaseComponent:InitializeRenderStep()
-		self.RenderStep = RunService.RenderStepped:Connect(function(DeltaTime)
-			debug.profilebegin(`{self:GetName()} RenderStep`)
-			self:RenderUpdate(DeltaTime)
-			debug.profileend()
-		end)
-	end
-	function BaseComponent:InitializeHeartbeat()
-		self.Heartbeat = RunService.Heartbeat:Connect(function(DeltaTime)
-			debug.profilebegin(`{self:GetName()} PhysicsStep`)
-			self:PhysicsUpdate(DeltaTime)
-			debug.profileend()
-		end)
-	end
 	function BaseComponent:Stop()
-		local _result = self.RenderStep
-		if _result ~= nil then
-			_result = _result.Connected
-		end
-		if _result then
-			self.RenderStep:Disconnect()
-		end
-		local _result_1 = self.Heartbeat
-		if _result_1 ~= nil then
-			_result_1 = _result_1.Connected
-		end
-		if _result_1 then
-			self.Heartbeat:Disconnect()
-		end
 	end
 	function BaseComponent:Destroy()
 		self:Stop()
@@ -86,10 +58,6 @@ do
 	end
 	function BaseComponent:GetInstance()
 		return self.Instance
-	end
-	function BaseComponent:RenderUpdate(DeltaTime)
-	end
-	function BaseComponent:PhysicsUpdate(DeltaTime)
 	end
 end
 return {

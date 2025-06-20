@@ -6,9 +6,6 @@ export abstract class BaseComponent<T extends Instance> {
 	protected Instance: T;
 	public readonly ID = new ObjectID();
 
-	protected RenderStep: RBXScriptConnection | undefined;
-	protected Heartbeat: RBXScriptConnection | undefined;
-
 	public readonly Destroyed = new Signal<(Manual: boolean) => void>();
 
 	constructor(protected ComponentInstance: T) {
@@ -59,31 +56,7 @@ export abstract class BaseComponent<T extends Instance> {
 		this.Instance.AddTag(ComponentName);
 	}
 
-	protected InitializeRenderStep(): void {
-		this.RenderStep = RunService.RenderStepped.Connect((DeltaTime: number) => {
-			debug.profilebegin(`${this.GetName()} RenderStep`);
-			this.RenderUpdate(DeltaTime);
-			debug.profileend();
-		});
-	}
-
-	protected InitializeHeartbeat(): void {
-		this.Heartbeat = RunService.Heartbeat.Connect((DeltaTime: number) => {
-			debug.profilebegin(`${this.GetName()} PhysicsStep`);
-			this.PhysicsUpdate(DeltaTime);
-			debug.profileend();
-		});
-	}
-
-	public Stop(): void {
-		if (this.RenderStep?.Connected) {
-			this.RenderStep.Disconnect();
-		}
-
-		if (this.Heartbeat?.Connected) {
-			this.Heartbeat.Disconnect();
-		}
-	}
+	public Stop(): void {}
 
 	public Destroy(): void {
 		this.Stop();
@@ -98,8 +71,4 @@ export abstract class BaseComponent<T extends Instance> {
 	public GetInstance(): T {
 		return this.Instance;
 	}
-
-	protected RenderUpdate(DeltaTime: number): void {}
-
-	protected PhysicsUpdate(DeltaTime: number): void {}
 }

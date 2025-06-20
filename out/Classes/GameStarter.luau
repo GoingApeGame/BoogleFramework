@@ -35,11 +35,13 @@ do
 			local RenderStep = rawget(Controller, "RenderStep")
 			local PhysicsStep = rawget(Controller, "PhysicsStep")
 			if RenderStep then
+				print(`Registering RenderStep for {Controller:GetName()}`)
 				local _renderStepControllers = self.RenderStepControllers
 				local _arg0 = Controller:GetName()
 				_renderStepControllers[_arg0] = RenderStep
 			end
 			if PhysicsStep then
+				print(`Registering PhysicsStep for {Controller:GetName()}`)
 				local _physicsStepControllers = self.PhysicsStepControllers
 				local _arg0 = Controller:GetName()
 				_physicsStepControllers[_arg0] = PhysicsStep
@@ -47,15 +49,6 @@ do
 		end
 		for _k, _v in _exp do
 			_callback(_v, _k, _exp)
-		end
-		-- ▲ ReadonlyMap.forEach ▲
-		local _exp_1 = self.Controllers
-		-- ▼ ReadonlyMap.forEach ▼
-		local _callback_1 = function(Controller)
-			Controller:PostInitialize()
-		end
-		for _k, _v in _exp_1 do
-			_callback_1(_v, _k, _exp_1)
 		end
 		-- ▲ ReadonlyMap.forEach ▲
 		-- ▼ ReadonlyMap.size ▼
@@ -67,28 +60,16 @@ do
 		if _size > 0 then
 			if RunService:IsClient() then
 				RunService.RenderStepped:Connect(function(DeltaTime)
-					local _exp_2 = self.RenderStepControllers
+					local _exp_1 = self.RenderStepControllers
 					-- ▼ ReadonlyMap.forEach ▼
-					local _callback_2 = function(RenderStep)
-						if RenderStep then
-							RenderStep(DeltaTime)
-						end
+					local _callback_1 = function(RenderStep)
+						RenderStep(DeltaTime)
 					end
-					for _k, _v in _exp_2 do
-						_callback_2(_v, _k, _exp_2)
+					for _k, _v in _exp_1 do
+						_callback_1(_v, _k, _exp_1)
 					end
 					-- ▲ ReadonlyMap.forEach ▲
 				end)
-			else
-				-- ▼ ReadonlyMap.size ▼
-				local _size_1 = 0
-				for _ in self.PhysicsStepControllers do
-					_size_1 += 1
-				end
-				-- ▲ ReadonlyMap.size ▲
-				if _size_1 > 0 then
-					error("PhysicsStep is not supported on the server")
-				end
 			end
 		end
 		-- ▼ ReadonlyMap.size ▼
@@ -99,19 +80,26 @@ do
 		-- ▲ ReadonlyMap.size ▲
 		if _size_1 > 0 then
 			RunService.Heartbeat:Connect(function(DeltaTime)
-				local _exp_2 = self.PhysicsStepControllers
+				local _exp_1 = self.PhysicsStepControllers
 				-- ▼ ReadonlyMap.forEach ▼
-				local _callback_2 = function(PhysicsStep)
-					if PhysicsStep then
-						PhysicsStep(DeltaTime)
-					end
+				local _callback_1 = function(PhysicsStep)
+					PhysicsStep(DeltaTime)
 				end
-				for _k, _v in _exp_2 do
-					_callback_2(_v, _k, _exp_2)
+				for _k, _v in _exp_1 do
+					_callback_1(_v, _k, _exp_1)
 				end
 				-- ▲ ReadonlyMap.forEach ▲
 			end)
 		end
+		local _exp_1 = self.Controllers
+		-- ▼ ReadonlyMap.forEach ▼
+		local _callback_1 = function(Controller)
+			Controller:PostInitialize()
+		end
+		for _k, _v in _exp_1 do
+			_callback_1(_v, _k, _exp_1)
+		end
+		-- ▲ ReadonlyMap.forEach ▲
 	end
 	function GameStarter:AfterStart()
 		BullshitHelpers:LogSuccess(`{GameStarter.GameName} {GameStarter.GameVersion} started in {BullshitHelpers:RoundToDecimal(os.clock() - self.StartedTime, 3)} seconds`)

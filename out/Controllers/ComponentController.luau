@@ -142,6 +142,42 @@ do
 			end
 		end)
 	end)
+	function ComponentController:RenderStep(DeltaTime)
+		local _exp = ComponentService:GetAllComponents()
+		-- ▼ ReadonlyArray.forEach ▼
+		local _callback = function(Component)
+			local RenderStep = rawget(Component, "RenderStep")
+			if RenderStep then
+				TS.try(function()
+					RenderStep(DeltaTime)
+				end, function(error)
+					BullshitHelpers:LogError(`Error in RenderStep for component {Component:GetName()}:`, error)
+				end)
+			end
+		end
+		for _k, _v in _exp do
+			_callback(_v, _k - 1, _exp)
+		end
+		-- ▲ ReadonlyArray.forEach ▲
+	end
+	function ComponentController:PhysicsStep(DeltaTime)
+		local _exp = ComponentService:GetAllComponents()
+		-- ▼ ReadonlyArray.forEach ▼
+		local _callback = function(Component)
+			local PhysicsStep = rawget(Component, "PhysicsStep")
+			if PhysicsStep then
+				TS.try(function()
+					PhysicsStep(DeltaTime)
+				end, function(error)
+					BullshitHelpers:LogError(`Error in PhysicsStep for component {Component:GetName()}:`, error)
+				end)
+			end
+		end
+		for _k, _v in _exp do
+			_callback(_v, _k - 1, _exp)
+		end
+		-- ▲ ReadonlyArray.forEach ▲
+	end
 	ComponentController.PostInitialize = TS.async(function(self)
 		super.PostInitialize(self)
 		BullshitHelpers:LogSuccess(`{#ComponentController.ComponentManifest} components registered`)

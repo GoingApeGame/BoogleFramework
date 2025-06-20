@@ -4,8 +4,9 @@ import { BaseComponent } from "../Classes/BaseComponent";
 import { BaseController } from "../Classes/BaseController";
 import { BullshitHelpers } from "../Services/BullshitHelpers";
 import { ComponentService } from "../Services/ComponentService";
+import { PhysicsStep, RenderStep } from "../Types/IControllerTypes";
 
-export class ComponentController extends BaseController {
+export class ComponentController extends BaseController implements RenderStep, PhysicsStep {
 	public static ComponentManifest: IComponentManifest = [];
 
 	public static GetComponentsFolder(): Folder | undefined {
@@ -105,6 +106,34 @@ export class ComponentController extends BaseController {
 					"The following components have not been utilized:",
 					UnregisteredComponents.map((Component) => tostring(Component)).join(", "),
 				);
+			}
+		});
+	}
+
+	public RenderStep(DeltaTime: number): void {
+		ComponentService.GetAllComponents().forEach((Component) => {
+			const RenderStep = rawget(Component, "RenderStep") as RenderStep["RenderStep"] | undefined;
+
+			if (RenderStep) {
+				try {
+					RenderStep(DeltaTime);
+				} catch (error) {
+					BullshitHelpers.LogError(`Error in RenderStep for component ${Component.GetName()}:`, error);
+				}
+			}
+		});
+	}
+
+	public PhysicsStep(DeltaTime: number): void {
+		ComponentService.GetAllComponents().forEach((Component) => {
+			const PhysicsStep = rawget(Component, "PhysicsStep") as PhysicsStep["PhysicsStep"] | undefined;
+
+			if (PhysicsStep) {
+				try {
+					PhysicsStep(DeltaTime);
+				} catch (error) {
+					BullshitHelpers.LogError(`Error in PhysicsStep for component ${Component.GetName()}:`, error);
+				}
 			}
 		});
 	}
