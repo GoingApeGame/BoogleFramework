@@ -34,6 +34,24 @@ export abstract class GameStarter {
 		BullshitHelpers.LogInfo(`Starting ${GameStarter.GameName} ${GameStarter.GameVersion}`);
 	}
 
+	public static AddToRenderStep(Controller: BaseController) {
+		const RenderStep = rawget(Controller, "RenderStep") as RenderStep["RenderStep"] | undefined;
+
+		if (RenderStep) {
+			print(`Registering RenderStep for ${Controller.GetName()}`);
+			this.RenderStepControllers.set(Controller.GetName(), RenderStep);
+		}
+	}
+
+	public static AddToPhysicsStep(Controller: BaseController) {
+		const PhysicsStep = rawget(Controller, "PhysicsStep") as PhysicsStep["PhysicsStep"] | undefined;
+
+		if (PhysicsStep) {
+			print(`Registering PhysicsStep for ${Controller.GetName()}`);
+			this.PhysicsStepControllers.set(Controller.GetName(), PhysicsStep);
+		}
+	}
+
 	public static StartControllers() {
 		for (const ControllerClass of this.ControllerRegistry) {
 			const ControllerInstance = new ControllerClass();
@@ -43,18 +61,8 @@ export abstract class GameStarter {
 		this.Controllers.forEach((Controller) => {
 			Controller.Initialize();
 
-			const RenderStep = rawget(Controller, "RenderStep") as RenderStep["RenderStep"] | undefined;
-			const PhysicsStep = rawget(Controller, "PhysicsStep") as PhysicsStep["PhysicsStep"] | undefined;
-
-			if (RenderStep) {
-				print(`Registering RenderStep for ${Controller.GetName()}`);
-				this.RenderStepControllers.set(Controller.GetName(), RenderStep);
-			}
-
-			if (PhysicsStep) {
-				print(`Registering PhysicsStep for ${Controller.GetName()}`);
-				this.PhysicsStepControllers.set(Controller.GetName(), PhysicsStep);
-			}
+			this.AddToRenderStep(Controller);
+			this.AddToPhysicsStep(Controller);
 		});
 
 		if (this.RenderStepControllers.size() > 0) {

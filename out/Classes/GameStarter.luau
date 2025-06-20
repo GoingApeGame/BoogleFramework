@@ -21,6 +21,24 @@ do
 		self.StartedTime = os.clock()
 		BullshitHelpers:LogInfo(`Starting {GameStarter.GameName} {GameStarter.GameVersion}`)
 	end
+	function GameStarter:AddToRenderStep(Controller)
+		local RenderStep = rawget(Controller, "RenderStep")
+		if RenderStep then
+			print(`Registering RenderStep for {Controller:GetName()}`)
+			local _renderStepControllers = self.RenderStepControllers
+			local _arg0 = Controller:GetName()
+			_renderStepControllers[_arg0] = RenderStep
+		end
+	end
+	function GameStarter:AddToPhysicsStep(Controller)
+		local PhysicsStep = rawget(Controller, "PhysicsStep")
+		if PhysicsStep then
+			print(`Registering PhysicsStep for {Controller:GetName()}`)
+			local _physicsStepControllers = self.PhysicsStepControllers
+			local _arg0 = Controller:GetName()
+			_physicsStepControllers[_arg0] = PhysicsStep
+		end
+	end
 	function GameStarter:StartControllers()
 		for _, ControllerClass in self.ControllerRegistry do
 			local ControllerInstance = ControllerClass.new()
@@ -32,20 +50,8 @@ do
 		-- ▼ ReadonlyMap.forEach ▼
 		local _callback = function(Controller)
 			Controller:Initialize()
-			local RenderStep = rawget(Controller, "RenderStep")
-			local PhysicsStep = rawget(Controller, "PhysicsStep")
-			if RenderStep then
-				print(`Registering RenderStep for {Controller:GetName()}`)
-				local _renderStepControllers = self.RenderStepControllers
-				local _arg0 = Controller:GetName()
-				_renderStepControllers[_arg0] = RenderStep
-			end
-			if PhysicsStep then
-				print(`Registering PhysicsStep for {Controller:GetName()}`)
-				local _physicsStepControllers = self.PhysicsStepControllers
-				local _arg0 = Controller:GetName()
-				_physicsStepControllers[_arg0] = PhysicsStep
-			end
+			self:AddToRenderStep(Controller)
+			self:AddToPhysicsStep(Controller)
 		end
 		for _k, _v in _exp do
 			_callback(_v, _k, _exp)
