@@ -10,16 +10,16 @@ do
 		local RenderStep = rawget((getmetatable(Controller)), "RenderStep")
 		if RenderStep then
 			local _renderStepControllers = self.RenderStepControllers
-			local _arg0 = Controller:GetName()
-			_renderStepControllers[_arg0] = RenderStep
+			local _controller = Controller
+			_renderStepControllers[_controller] = RenderStep
 		end
 	end
 	function StepHandler:AddToPhysicsStep(Controller)
 		local PhysicsStep = rawget((getmetatable(Controller)), "PhysicsStep")
 		if PhysicsStep then
 			local _physicsStepControllers = self.PhysicsStepControllers
-			local _arg0 = Controller:GetName()
-			_physicsStepControllers[_arg0] = PhysicsStep
+			local _controller = Controller
+			_physicsStepControllers[_controller] = PhysicsStep
 		end
 	end
 	function StepHandler:Initialize()
@@ -31,8 +31,9 @@ do
 			RunService.RenderStepped:Connect(function(DeltaTime)
 				local _exp = self.RenderStepControllers
 				-- ▼ ReadonlyMap.forEach ▼
-				local _callback = function(RenderStep)
-					RenderStep(DeltaTime)
+				local _callback = function(RenderStep, Controller)
+					local RenderStepFunction = RenderStep
+					RenderStepFunction(Controller, DeltaTime)
 				end
 				for _k, _v in _exp do
 					_callback(_v, _k, _exp)
@@ -43,8 +44,9 @@ do
 		RunService.Heartbeat:Connect(function(DeltaTime)
 			local _exp = self.PhysicsStepControllers
 			-- ▼ ReadonlyMap.forEach ▼
-			local _callback = function(PhysicsStep)
-				PhysicsStep(DeltaTime)
+			local _callback = function(PhysicsStep, Controller)
+				local RenderStepFunction = PhysicsStep
+				RenderStepFunction(Controller, DeltaTime)
 			end
 			for _k, _v in _exp do
 				_callback(_v, _k, _exp)

@@ -5,14 +5,14 @@ import { RunService } from "@rbxts/services";
 export abstract class StepHandler {
 	protected static IsInitialized = false;
 
-	protected static RenderStepControllers = new Map<string, RenderStep["RenderStep"]>();
-	protected static PhysicsStepControllers = new Map<string, PhysicsStep["PhysicsStep"]>();
+	protected static RenderStepControllers = new Map<BaseController, RenderStep["RenderStep"]>();
+	protected static PhysicsStepControllers = new Map<BaseController, PhysicsStep["PhysicsStep"]>();
 
 	public static AddToRenderStep(Controller: BaseController) {
 		const RenderStep = rawget(getmetatable(Controller), "RenderStep") as RenderStep["RenderStep"] | undefined;
 
 		if (RenderStep) {
-			this.RenderStepControllers.set(Controller.GetName(), RenderStep);
+			this.RenderStepControllers.set(Controller, RenderStep);
 		}
 	}
 
@@ -20,7 +20,7 @@ export abstract class StepHandler {
 		const PhysicsStep = rawget(getmetatable(Controller), "PhysicsStep") as PhysicsStep["PhysicsStep"] | undefined;
 
 		if (PhysicsStep) {
-			this.PhysicsStepControllers.set(Controller.GetName(), PhysicsStep);
+			this.PhysicsStepControllers.set(Controller, PhysicsStep);
 		}
 	}
 
@@ -33,15 +33,23 @@ export abstract class StepHandler {
 
 		if (RunService.IsClient()) {
 			RunService.RenderStepped.Connect((DeltaTime: number) => {
-				this.RenderStepControllers.forEach((RenderStep) => {
-					RenderStep(DeltaTime);
+				this.RenderStepControllers.forEach((RenderStep, Controller) => {
+					const RenderStepFunction = RenderStep as unknown as (
+						Controller: BaseController,
+						DeltaTime: number,
+					) => void;
+					RenderStepFunction(Controller, DeltaTime);
 				});
 			});
 		}
 
 		RunService.Heartbeat.Connect((DeltaTime: number) => {
-			this.PhysicsStepControllers.forEach((PhysicsStep) => {
-				PhysicsStep(DeltaTime);
+			this.PhysicsStepControllers.forEach((PhysicsStep, Controller) => {
+				const RenderStepFunction = PhysicsStep as unknown as (
+					Controller: BaseController,
+					DeltaTime: number,
+				) => void;
+				RenderStepFunction(Controller, DeltaTime);
 			});
 		});
 	}

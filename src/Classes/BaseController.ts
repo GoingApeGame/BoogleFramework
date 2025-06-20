@@ -1,6 +1,7 @@
 import { Players, RunService } from "@rbxts/services";
 import { BullshitHelpers } from "../Services/BullshitHelpers";
 import { StepHandler } from "./StepHandler";
+import { RenderStep } from "../Types/IControllerTypes";
 
 export abstract class BaseController {
 	protected IsInitialized = false;
