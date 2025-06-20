@@ -29,39 +29,12 @@ do
 			return nil
 		end
 		self.IsInitialized = true
-		-- ▼ ReadonlyMap.size ▼
-		local _size = 0
-		for _ in self.RenderStepControllers do
-			_size += 1
-		end
-		-- ▲ ReadonlyMap.size ▲
-		if _size > 0 then
-			if RunService:IsClient() then
-				RunService.RenderStepped:Connect(function(DeltaTime)
-					local _exp = self.RenderStepControllers
-					-- ▼ ReadonlyMap.forEach ▼
-					local _callback = function(RenderStep)
-						RenderStep(DeltaTime)
-					end
-					for _k, _v in _exp do
-						_callback(_v, _k, _exp)
-					end
-					-- ▲ ReadonlyMap.forEach ▲
-				end)
-			end
-		end
-		-- ▼ ReadonlyMap.size ▼
-		local _size_1 = 0
-		for _ in self.PhysicsStepControllers do
-			_size_1 += 1
-		end
-		-- ▲ ReadonlyMap.size ▲
-		if _size_1 > 0 then
-			RunService.Heartbeat:Connect(function(DeltaTime)
-				local _exp = self.PhysicsStepControllers
+		if RunService:IsClient() then
+			RunService.RenderStepped:Connect(function(DeltaTime)
+				local _exp = self.RenderStepControllers
 				-- ▼ ReadonlyMap.forEach ▼
-				local _callback = function(PhysicsStep)
-					PhysicsStep(DeltaTime)
+				local _callback = function(RenderStep)
+					RenderStep(DeltaTime)
 				end
 				for _k, _v in _exp do
 					_callback(_v, _k, _exp)
@@ -69,6 +42,17 @@ do
 				-- ▲ ReadonlyMap.forEach ▲
 			end)
 		end
+		RunService.Heartbeat:Connect(function(DeltaTime)
+			local _exp = self.PhysicsStepControllers
+			-- ▼ ReadonlyMap.forEach ▼
+			local _callback = function(PhysicsStep)
+				PhysicsStep(DeltaTime)
+			end
+			for _k, _v in _exp do
+				_callback(_v, _k, _exp)
+			end
+			-- ▲ ReadonlyMap.forEach ▲
+		end)
 	end
 	StepHandler.IsInitialized = false
 	StepHandler.RenderStepControllers = {}

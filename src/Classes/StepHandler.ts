@@ -32,22 +32,18 @@ export abstract class StepHandler {
 
 		this.IsInitialized = true;
 
-		if (this.RenderStepControllers.size() > 0) {
-			if (RunService.IsClient()) {
-				RunService.RenderStepped.Connect((DeltaTime: number) => {
-					this.RenderStepControllers.forEach((RenderStep) => {
-						RenderStep(DeltaTime);
-					});
-				});
-			}
-		}
-
-		if (this.PhysicsStepControllers.size() > 0) {
-			RunService.Heartbeat.Connect((DeltaTime: number) => {
-				this.PhysicsStepControllers.forEach((PhysicsStep) => {
-					PhysicsStep(DeltaTime);
+		if (RunService.IsClient()) {
+			RunService.RenderStepped.Connect((DeltaTime: number) => {
+				this.RenderStepControllers.forEach((RenderStep) => {
+					RenderStep(DeltaTime);
 				});
 			});
 		}
+
+		RunService.Heartbeat.Connect((DeltaTime: number) => {
+			this.PhysicsStepControllers.forEach((PhysicsStep) => {
+				PhysicsStep(DeltaTime);
+			});
+		});
 	}
 }
