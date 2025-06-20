@@ -10,8 +10,6 @@ export declare abstract class GameStarter {
     protected static PhysicsStepControllers: Map<string, (DeltaTime: number) => void>;
     static GetController<T extends typeof BaseController>(Controller: T): InstanceType<T> | undefined;
     static Start(): void;
-    static AddToRenderStep(Controller: BaseController): void;
-    static AddToPhysicsStep(Controller: BaseController): void;
     static StartControllers(): void;
     static AfterStart(): void;
 }
