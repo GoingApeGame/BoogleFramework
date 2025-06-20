@@ -1,4 +1,4 @@
-import { BaseController } from "./BaseController";
+import type { BaseController } from "./BaseController";
 export declare abstract class StepHandler {
     protected static IsInitialized: boolean;
     protected static RenderStepControllers: Map<string, (DeltaTime: number) => void>;

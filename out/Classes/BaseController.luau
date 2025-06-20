@@ -2,6 +2,7 @@
 local TS = _G[script]
 local Players = TS.import(script, TS.getModule(script, "@rbxts", "services")).Players
 local BullshitHelpers = TS.import(script, script.Parent.Parent, "Services", "BullshitHelpers").BullshitHelpers
+local StepHandler = TS.import(script, script.Parent, "StepHandler").StepHandler
 local BaseController
 do
 	BaseController = {}
@@ -31,6 +32,8 @@ do
 		Players.PlayerRemoving:Connect(function(Player)
 			self:PlayerRemoving(Player)
 		end)
+		StepHandler:AddToRenderStep(self)
+		StepHandler:AddToPhysicsStep(self)
 	end)
 	BaseController.PostInitialize = TS.async(function(self)
 		if self.InitializedTime == 0 then

@@ -1,5 +1,6 @@
 import { Players, RunService } from "@rbxts/services";
 import { BullshitHelpers } from "../Services/BullshitHelpers";
+import { StepHandler } from "./StepHandler";
 
 export abstract class BaseController {
 	protected IsInitialized = false;
@@ -29,6 +30,9 @@ export abstract class BaseController {
 		Players.PlayerRemoving.Connect((Player) => {
 			this.PlayerRemoving(Player);
 		});
+
+		StepHandler.AddToRenderStep(this);
+		StepHandler.AddToPhysicsStep(this);
 	}
 
 	public async PostInitialize() {

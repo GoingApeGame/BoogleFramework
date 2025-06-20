@@ -1,6 +1,7 @@
 import { PhysicsStep, RenderStep } from "../Types/IControllerTypes";
-import { BaseController } from "./BaseController";
+import type { BaseController } from "./BaseController";
 import { RunService } from "@rbxts/services";
+
 export abstract class StepHandler {
 	protected static IsInitialized = false;
 
@@ -8,19 +9,17 @@ export abstract class StepHandler {
 	protected static PhysicsStepControllers = new Map<string, PhysicsStep["PhysicsStep"]>();
 
 	public static AddToRenderStep(Controller: BaseController) {
-		const RenderStep = rawget(Controller, "RenderStep") as RenderStep["RenderStep"] | undefined;
+		const RenderStep = rawget(getmetatable(Controller), "RenderStep") as RenderStep["RenderStep"] | undefined;
 
 		if (RenderStep) {
-			print(`Registering RenderStep for ${Controller.GetName()}`);
 			this.RenderStepControllers.set(Controller.GetName(), RenderStep);
 		}
 	}
 
 	public static AddToPhysicsStep(Controller: BaseController) {
-		const PhysicsStep = rawget(Controller, "PhysicsStep") as PhysicsStep["PhysicsStep"] | undefined;
+		const PhysicsStep = rawget(getmetatable(Controller), "PhysicsStep") as PhysicsStep["PhysicsStep"] | undefined;
 
 		if (PhysicsStep) {
-			print(`Registering PhysicsStep for ${Controller.GetName()}`);
 			this.PhysicsStepControllers.set(Controller.GetName(), PhysicsStep);
 		}
 	}

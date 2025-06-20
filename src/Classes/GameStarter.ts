@@ -43,9 +43,6 @@ export abstract class GameStarter {
 
 		this.Controllers.forEach((Controller) => {
 			Controller.Initialize();
-
-			StepHandler.AddToRenderStep(Controller);
-			StepHandler.AddToPhysicsStep(Controller);
 		});
 
 		StepHandler.Initialize();

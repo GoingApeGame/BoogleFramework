@@ -7,18 +7,16 @@ do
 	function StepHandler:constructor()
 	end
 	function StepHandler:AddToRenderStep(Controller)
-		local RenderStep = rawget(Controller, "RenderStep")
+		local RenderStep = rawget((getmetatable(Controller)), "RenderStep")
 		if RenderStep then
-			print(`Registering RenderStep for {Controller:GetName()}`)
 			local _renderStepControllers = self.RenderStepControllers
 			local _arg0 = Controller:GetName()
 			_renderStepControllers[_arg0] = RenderStep
 		end
 	end
 	function StepHandler:AddToPhysicsStep(Controller)
-		local PhysicsStep = rawget(Controller, "PhysicsStep")
+		local PhysicsStep = rawget((getmetatable(Controller)), "PhysicsStep")
 		if PhysicsStep then
-			print(`Registering PhysicsStep for {Controller:GetName()}`)
 			local _physicsStepControllers = self.PhysicsStepControllers
 			local _arg0 = Controller:GetName()
 			_physicsStepControllers[_arg0] = PhysicsStep

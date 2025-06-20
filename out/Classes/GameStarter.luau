@@ -32,8 +32,6 @@ do
 		-- ▼ ReadonlyMap.forEach ▼
 		local _callback = function(Controller)
 			Controller:Initialize()
-			StepHandler:AddToRenderStep(Controller)
-			StepHandler:AddToPhysicsStep(Controller)
 		end
 		for _k, _v in _exp do
 			_callback(_v, _k, _exp)
