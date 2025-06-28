@@ -45,11 +45,11 @@ export abstract class StepHandler {
 
 		RunService.Heartbeat.Connect((DeltaTime: number) => {
 			this.PhysicsStepControllers.forEach((PhysicsStep, Controller) => {
-				const RenderStepFunction = PhysicsStep as unknown as (
+				const PhysicsStepFunction = PhysicsStep as unknown as (
 					Controller: BaseController,
 					DeltaTime: number,
 				) => void;
-				RenderStepFunction(Controller, DeltaTime);
+				PhysicsStepFunction(Controller, DeltaTime);
 			});
 		});
 	}
