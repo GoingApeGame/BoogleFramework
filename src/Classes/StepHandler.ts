@@ -32,7 +32,7 @@ export abstract class StepHandler {
 		this.IsInitialized = true;
 
 		if (RunService.IsClient()) {
-			RunService.RenderStepped.Connect((DeltaTime: number) => {
+			RunService.PreRender.Connect((DeltaTime: number) => {
 				this.RenderStepControllers.forEach((RenderStep, Controller) => {
 					const RenderStepFunction = RenderStep as unknown as (
 						Controller: BaseController,

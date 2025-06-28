@@ -28,7 +28,7 @@ do
 		end
 		self.IsInitialized = true
 		if RunService:IsClient() then
-			RunService.RenderStepped:Connect(function(DeltaTime)
+			RunService.PreRender:Connect(function(DeltaTime)
 				local _exp = self.RenderStepControllers
 				-- ▼ ReadonlyMap.forEach ▼
 				local _callback = function(RenderStep, Controller)

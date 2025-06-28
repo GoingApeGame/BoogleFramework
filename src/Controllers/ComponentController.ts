@@ -113,9 +113,9 @@ export class ComponentController extends BaseController implements RenderStep, P
 	public RenderStep(DeltaTime: number): void {
 		ComponentService.GetAllComponents().forEach((Component) => {
 			const RenderStep = rawget(getmetatable(Component), "RenderStep") as (
-					Component: BaseComponent<Instance>,
-					DeltaTime: number,
-				) => void;
+				Component: BaseComponent<Instance>,
+				DeltaTime: number,
+			) => void;
 
 			if (RenderStep) {
 				try {
@@ -130,9 +130,9 @@ export class ComponentController extends BaseController implements RenderStep, P
 	public PhysicsStep(DeltaTime: number): void {
 		ComponentService.GetAllComponents().forEach((Component) => {
 			const PhysicsStep = rawget(getmetatable(Component), "PhysicsStep") as (
-					Component: BaseComponent<Instance>,
-					DeltaTime: number,
-				) => void;
+				Component: BaseComponent<Instance>,
+				DeltaTime: number,
+			) => void;
 
 			if (PhysicsStep) {
 				try {
