@@ -45,8 +45,8 @@ do
 			local _exp = self.PhysicsStepControllers
 			-- ▼ ReadonlyMap.forEach ▼
 			local _callback = function(PhysicsStep, Controller)
-				local RenderStepFunction = PhysicsStep
-				RenderStepFunction(Controller, DeltaTime)
+				local PhysicsStepFunction = PhysicsStep
+				PhysicsStepFunction(Controller, DeltaTime)
 			end
 			for _k, _v in _exp do
 				_callback(_v, _k, _exp)

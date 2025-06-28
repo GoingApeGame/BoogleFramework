@@ -146,10 +146,10 @@ do
 		local _exp = ComponentService:GetAllComponents()
 		-- ▼ ReadonlyArray.forEach ▼
 		local _callback = function(Component)
-			local RenderStep = rawget(Component, "RenderStep")
+			local RenderStep = rawget((getmetatable(Component)), "RenderStep")
 			if RenderStep then
 				TS.try(function()
-					RenderStep(DeltaTime)
+					RenderStep(Component, DeltaTime)
 				end, function(error)
 					BullshitHelpers:LogError(`Error in RenderStep for component {Component:GetName()}:`, error)
 				end)
@@ -164,10 +164,10 @@ do
 		local _exp = ComponentService:GetAllComponents()
 		-- ▼ ReadonlyArray.forEach ▼
 		local _callback = function(Component)
-			local PhysicsStep = rawget(Component, "PhysicsStep")
+			local PhysicsStep = rawget((getmetatable(Component)), "PhysicsStep")
 			if PhysicsStep then
 				TS.try(function()
-					PhysicsStep(DeltaTime)
+					PhysicsStep(Component, DeltaTime)
 				end, function(error)
 					BullshitHelpers:LogError(`Error in PhysicsStep for component {Component:GetName()}:`, error)
 				end)
