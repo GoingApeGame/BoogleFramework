@@ -112,11 +112,14 @@ export class ComponentController extends BaseController implements RenderStep, P
 
 	public RenderStep(DeltaTime: number): void {
 		ComponentService.GetAllComponents().forEach((Component) => {
-			const RenderStep = rawget(Component, "RenderStep") as RenderStep["RenderStep"] | undefined;
+			const RenderStep = rawget(getmetatable(Component), "RenderStep") as (
+					Component: BaseComponent<Instance>,
+					DeltaTime: number,
+				) => void;
 
 			if (RenderStep) {
 				try {
-					RenderStep(DeltaTime);
+					RenderStep(Component, DeltaTime);
 				} catch (error) {
 					BullshitHelpers.LogError(`Error in RenderStep for component ${Component.GetName()}:`, error);
 				}
@@ -126,11 +129,14 @@ export class ComponentController extends BaseController implements RenderStep, P
 
 	public PhysicsStep(DeltaTime: number): void {
 		ComponentService.GetAllComponents().forEach((Component) => {
-			const PhysicsStep = rawget(Component, "PhysicsStep") as PhysicsStep["PhysicsStep"] | undefined;
+			const PhysicsStep = rawget(getmetatable(Component), "PhysicsStep") as (
+					Component: BaseComponent<Instance>,
+					DeltaTime: number,
+				) => void;
 
 			if (PhysicsStep) {
 				try {
-					PhysicsStep(DeltaTime);
+					PhysicsStep(Component, DeltaTime);
 				} catch (error) {
 					BullshitHelpers.LogError(`Error in PhysicsStep for component ${Component.GetName()}:`, error);
 				}
