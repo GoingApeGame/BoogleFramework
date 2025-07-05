@@ -6,12 +6,6 @@ local GameStarter
 do
 	GameStarter = {}
 	function GameStarter:constructor()
-		self.GameName = game.Name
-		self.GameVersion = game.PlaceVersion
-		self.StartedTime = 0
-		self.Controllers = {}
-		self.RenderStepControllers = {}
-		self.PhysicsStepControllers = {}
 	end
 	function GameStarter:GetController(Controller)
 		local FoundController
@@ -57,6 +51,12 @@ do
 	function GameStarter:AfterStart()
 		BullshitHelpers:LogSuccess(`{self.GameName} {self.GameVersion} started in {BullshitHelpers:RoundToDecimal(os.clock() - self.StartedTime, 3)} seconds`)
 	end
+	GameStarter.GameName = game.Name
+	GameStarter.GameVersion = game.PlaceVersion
+	GameStarter.StartedTime = 0
+	GameStarter.Controllers = {}
+	GameStarter.RenderStepControllers = {}
+	GameStarter.PhysicsStepControllers = {}
 end
 return {
 	GameStarter = GameStarter,

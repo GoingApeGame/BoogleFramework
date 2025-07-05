@@ -6,18 +6,18 @@ import type { PhysicsStep, RenderStep } from "../Types/IControllerTypes";
 import { StepHandler } from "./StepHandler";
 
 export abstract class GameStarter {
-	public GameName = game.Name;
-	public GameVersion = game.PlaceVersion;
+	public static GameName = game.Name;
+	public static GameVersion = game.PlaceVersion;
 
-	protected StartedTime = 0;
+	protected static StartedTime = 0;
 
-	protected abstract ControllerRegistry: IControllerRegistry;
-	protected Controllers = new Map<string, BaseController>();
+	protected static ControllerRegistry: IControllerRegistry;
+	protected static Controllers = new Map<string, BaseController>();
 
-	protected RenderStepControllers = new Map<string, RenderStep["RenderStep"]>();
-	protected PhysicsStepControllers = new Map<string, PhysicsStep["PhysicsStep"]>();
+	protected static RenderStepControllers = new Map<string, RenderStep["RenderStep"]>();
+	protected static PhysicsStepControllers = new Map<string, PhysicsStep["PhysicsStep"]>();
 
-	public GetController<T extends typeof BaseController>(Controller: T): InstanceType<T> | undefined {
+	public static GetController<T extends typeof BaseController>(Controller: T): InstanceType<T> | undefined {
 		let FoundController: BaseController | undefined;
 
 		for (const [ControllerName, ControllerInstance] of this.Controllers) {
@@ -30,12 +30,12 @@ export abstract class GameStarter {
 		return FoundController as InstanceType<T>;
 	}
 
-	public Start() {
+	public static Start() {
 		this.StartedTime = os.clock();
 		BullshitHelpers.LogInfo(`Starting ${this.GameName} ${this.GameVersion}`);
 	}
 
-	public StartControllers() {
+	public static StartControllers() {
 		for (const ControllerClass of this.ControllerRegistry) {
 			const ControllerInstance = new ControllerClass();
 			this.Controllers.set(ControllerInstance.GetName(), ControllerInstance);
@@ -52,7 +52,7 @@ export abstract class GameStarter {
 		});
 	}
 
-	public AfterStart() {
+	public static AfterStart() {
 		BullshitHelpers.LogSuccess(
 			`${this.GameName} ${this.GameVersion} started in ${BullshitHelpers.RoundToDecimal(os.clock() - this.StartedTime, 3)} seconds`,
 		);
