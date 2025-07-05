@@ -6,18 +6,18 @@ import type { PhysicsStep, RenderStep } from "../Types/IControllerTypes";
 import { StepHandler } from "./StepHandler";
 
 export abstract class GameStarter {
-	public static GameName = game.Name;
-	public static GameVersion = game.PlaceVersion;
+	public GameName = game.Name;
+	public GameVersion = game.PlaceVersion;
 
-	protected static StartedTime = 0;
+	protected StartedTime = 0;
 
-	protected static ControllerRegistry: IControllerRegistry<typeof this>;
-	protected static Controllers = new Map<string, BaseController>();
+	protected abstract ControllerRegistry: IControllerRegistry<GameStarter>;
+	protected Controllers = new Map<string, BaseController>();
 
-	protected static RenderStepControllers = new Map<string, RenderStep["RenderStep"]>();
-	protected static PhysicsStepControllers = new Map<string, PhysicsStep["PhysicsStep"]>();
+	protected RenderStepControllers = new Map<string, RenderStep["RenderStep"]>();
+	protected PhysicsStepControllers = new Map<string, PhysicsStep["PhysicsStep"]>();
 
-	public static GetController<T extends typeof BaseController>(Controller: T): InstanceType<T> | undefined {
+	public GetController<T extends typeof BaseController>(Controller: T): InstanceType<T> | undefined {
 		let FoundController: BaseController | undefined;
 
 		for (const [ControllerName, ControllerInstance] of this.Controllers) {
@@ -30,14 +30,14 @@ export abstract class GameStarter {
 		return FoundController as InstanceType<T>;
 	}
 
-	public static Start() {
+	public Start() {
 		this.StartedTime = os.clock();
-		BullshitHelpers.LogInfo(`Starting ${GameStarter.GameName} ${GameStarter.GameVersion}`);
+		BullshitHelpers.LogInfo(`Starting ${this.GameName} ${this.GameVersion}`);
 	}
 
-	public static StartControllers() {
+	public StartControllers() {
 		for (const ControllerClass of this.ControllerRegistry) {
-			const ControllerInstance = new ControllerClass(getmetatable(this) as typeof this);
+			const ControllerInstance = new ControllerClass(this);
 			this.Controllers.set(ControllerInstance.GetName(), ControllerInstance);
 		}
 
@@ -52,9 +52,9 @@ export abstract class GameStarter {
 		});
 	}
 
-	public static AfterStart() {
+	public AfterStart() {
 		BullshitHelpers.LogSuccess(
-			`${GameStarter.GameName} ${GameStarter.GameVersion} started in ${BullshitHelpers.RoundToDecimal(os.clock() - this.StartedTime, 3)} seconds`,
+			`${this.GameName} ${this.GameVersion} started in ${BullshitHelpers.RoundToDecimal(os.clock() - this.StartedTime, 3)} seconds`,
 		);
 	}
 }

@@ -6,6 +6,12 @@ local GameStarter
 do
 	GameStarter = {}
 	function GameStarter:constructor()
+		self.GameName = game.Name
+		self.GameVersion = game.PlaceVersion
+		self.StartedTime = 0
+		self.Controllers = {}
+		self.RenderStepControllers = {}
+		self.PhysicsStepControllers = {}
 	end
 	function GameStarter:GetController(Controller)
 		local FoundController
@@ -19,11 +25,11 @@ do
 	end
 	function GameStarter:Start()
 		self.StartedTime = os.clock()
-		BullshitHelpers:LogInfo(`Starting {GameStarter.GameName} {GameStarter.GameVersion}`)
+		BullshitHelpers:LogInfo(`Starting {self.GameName} {self.GameVersion}`)
 	end
 	function GameStarter:StartControllers()
 		for _, ControllerClass in self.ControllerRegistry do
-			local ControllerInstance = ControllerClass.new(getmetatable(self))
+			local ControllerInstance = ControllerClass.new(self)
 			local _controllers = self.Controllers
 			local _arg0 = ControllerInstance:GetName()
 			_controllers[_arg0] = ControllerInstance
@@ -49,14 +55,8 @@ do
 		-- ▲ ReadonlyMap.forEach ▲
 	end
 	function GameStarter:AfterStart()
-		BullshitHelpers:LogSuccess(`{GameStarter.GameName} {GameStarter.GameVersion} started in {BullshitHelpers:RoundToDecimal(os.clock() - self.StartedTime, 3)} seconds`)
+		BullshitHelpers:LogSuccess(`{self.GameName} {self.GameVersion} started in {BullshitHelpers:RoundToDecimal(os.clock() - self.StartedTime, 3)} seconds`)
 	end
-	GameStarter.GameName = game.Name
-	GameStarter.GameVersion = game.PlaceVersion
-	GameStarter.StartedTime = 0
-	GameStarter.Controllers = {}
-	GameStarter.RenderStepControllers = {}
-	GameStarter.PhysicsStepControllers = {}
 end
 return {
 	GameStarter = GameStarter,
