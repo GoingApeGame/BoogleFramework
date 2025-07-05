@@ -11,7 +11,7 @@ export abstract class GameStarter {
 
 	protected StartedTime = 0;
 
-	protected abstract ControllerRegistry: IControllerRegistry<GameStarter>;
+	protected abstract ControllerRegistry: IControllerRegistry;
 	protected Controllers = new Map<string, BaseController>();
 
 	protected RenderStepControllers = new Map<string, RenderStep["RenderStep"]>();
@@ -37,7 +37,7 @@ export abstract class GameStarter {
 
 	public StartControllers() {
 		for (const ControllerClass of this.ControllerRegistry) {
-			const ControllerInstance = new ControllerClass(this);
+			const ControllerInstance = new ControllerClass();
 			this.Controllers.set(ControllerInstance.GetName(), ControllerInstance);
 		}
 

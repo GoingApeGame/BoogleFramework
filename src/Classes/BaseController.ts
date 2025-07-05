@@ -9,7 +9,7 @@ export abstract class BaseController {
 
 	protected InitializedTime = 0;
 
-	constructor(public readonly Starter: GameStarter) {}
+	constructor() {}
 
 	public async Initialize() {
 		if (this.IsInitialized) {
