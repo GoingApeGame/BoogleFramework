@@ -4,7 +4,7 @@ export declare abstract class GameStarter {
     static GameName: string;
     static GameVersion: number;
     protected static StartedTime: number;
-    protected static ControllerRegistry: IControllerRegistry;
+    protected static ControllerRegistry: IControllerRegistry<typeof GameStarter>;
     protected static Controllers: Map<string, BaseController>;
     protected static RenderStepControllers: Map<string, (DeltaTime: number) => void>;
     protected static PhysicsStepControllers: Map<string, (DeltaTime: number) => void>;

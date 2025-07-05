@@ -11,7 +11,7 @@ export abstract class GameStarter {
 
 	protected static StartedTime = 0;
 
-	protected static ControllerRegistry: IControllerRegistry;
+	protected static ControllerRegistry: IControllerRegistry<typeof GameStarter>;
 	protected static Controllers = new Map<string, BaseController>();
 
 	protected static RenderStepControllers = new Map<string, RenderStep["RenderStep"]>();

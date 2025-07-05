@@ -1,4 +1,4 @@
 import type { BaseController } from "../Classes/BaseController";
 import type { GameStarter } from "../Classes/GameStarter";
 
-declare type IControllerRegistry = ReadonlyArray<new (Starter: typeof GameStarter) => BaseController>;
+declare type IControllerRegistry<T extends typeof GameStarter> = ReadonlyArray<new (Starter: T) => BaseController>;
