@@ -6,8 +6,7 @@ local StepHandler = TS.import(script, script.Parent, "StepHandler").StepHandler
 local BaseController
 do
 	BaseController = {}
-	function BaseController:constructor(Starter)
-		self.Starter = Starter
+	function BaseController:constructor()
 		self.IsInitialized = false
 		self.InitializedTime = 0
 	end

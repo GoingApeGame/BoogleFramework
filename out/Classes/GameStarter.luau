@@ -29,7 +29,7 @@ do
 	end
 	function GameStarter:StartControllers()
 		for _, ControllerClass in self.ControllerRegistry do
-			local ControllerInstance = ControllerClass.new(self)
+			local ControllerInstance = ControllerClass.new()
 			local _controllers = self.Controllers
 			local _arg0 = ControllerInstance:GetName()
 			_controllers[_arg0] = ControllerInstance
