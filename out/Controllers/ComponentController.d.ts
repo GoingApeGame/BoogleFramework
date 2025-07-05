@@ -6,7 +6,7 @@ import type { GameStarter } from "../Classes/GameStarter";
 export declare class ComponentController extends BaseController implements RenderStep, PhysicsStep {
     static ComponentManifest: IComponentManifest;
     static GetComponentsFolder(): Folder | undefined;
-    Initialize(Starter: GameStarter): Promise<void>;
+    Initialize(Starter: typeof GameStarter): Promise<void>;
     RenderStep(DeltaTime: number): void;
     PhysicsStep(DeltaTime: number): void;
     PostInitialize(): Promise<void>;

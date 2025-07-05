@@ -11,7 +11,7 @@ export abstract class BaseController {
 
 	constructor() {}
 
-	public async Initialize(Starter: GameStarter) {
+	public async Initialize(Starter: typeof GameStarter) {
 		if (this.IsInitialized) {
 			BullshitHelpers.LogWarning("Controller already initialized", debug.traceback());
 			return;

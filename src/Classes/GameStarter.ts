@@ -42,7 +42,7 @@ export abstract class GameStarter {
 		}
 
 		this.Controllers.forEach((Controller) => {
-			Controller.Initialize(this);
+			Controller.Initialize(getmetatable(this) as typeof this);
 		});
 
 		StepHandler.Initialize();

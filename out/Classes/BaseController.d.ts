@@ -3,7 +3,7 @@ export declare abstract class BaseController {
     protected IsInitialized: boolean;
     protected InitializedTime: number;
     constructor();
-    Initialize(Starter: GameStarter): Promise<void>;
+    Initialize(Starter: typeof GameStarter): Promise<void>;
     PostInitialize(): Promise<void>;
     private _PlayerAdded;
     PlayerAdded(Player: Player): void;
