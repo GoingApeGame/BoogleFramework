@@ -1,8 +1,9 @@
+import type { GameStarter } from "./GameStarter";
 export declare abstract class BaseController {
     protected IsInitialized: boolean;
     protected InitializedTime: number;
     constructor();
-    Initialize(): Promise<void>;
+    Initialize(Starter: GameStarter): Promise<void>;
     PostInitialize(): Promise<void>;
     private _PlayerAdded;
     PlayerAdded(Player: Player): void;

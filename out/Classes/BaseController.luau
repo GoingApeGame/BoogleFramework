@@ -10,7 +10,7 @@ do
 		self.IsInitialized = false
 		self.InitializedTime = 0
 	end
-	BaseController.Initialize = TS.async(function(self)
+	BaseController.Initialize = TS.async(function(self, Starter)
 		if self.IsInitialized then
 			BullshitHelpers:LogWarning("Controller already initialized", debug.traceback())
 			return nil

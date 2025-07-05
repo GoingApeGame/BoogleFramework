@@ -1,8 +1,8 @@
 import { RunService } from "@rbxts/services";
 import { BullshitHelpers } from "../Services/BullshitHelpers";
-import { IControllerRegistry } from "../Types/IControllerRegistry";
-import { BaseController } from "./BaseController";
-import { PhysicsStep, RenderStep } from "../Types/IControllerTypes";
+import type { IControllerRegistry } from "../Types/IControllerRegistry";
+import type { BaseController } from "./BaseController";
+import type { PhysicsStep, RenderStep } from "../Types/IControllerTypes";
 import { StepHandler } from "./StepHandler";
 
 export abstract class GameStarter {
@@ -42,7 +42,7 @@ export abstract class GameStarter {
 		}
 
 		this.Controllers.forEach((Controller) => {
-			Controller.Initialize();
+			Controller.Initialize(this);
 		});
 
 		StepHandler.Initialize();

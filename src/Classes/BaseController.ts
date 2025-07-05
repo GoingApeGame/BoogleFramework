@@ -2,6 +2,7 @@ import { Players, RunService } from "@rbxts/services";
 import { BullshitHelpers } from "../Services/BullshitHelpers";
 import { StepHandler } from "./StepHandler";
 import { RenderStep } from "../Types/IControllerTypes";
+import type { GameStarter } from "./GameStarter";
 
 export abstract class BaseController {
 	protected IsInitialized = false;
@@ -10,7 +11,7 @@ export abstract class BaseController {
 
 	constructor() {}
 
-	public async Initialize() {
+	public async Initialize(Starter: GameStarter) {
 		if (this.IsInitialized) {
 			BullshitHelpers.LogWarning("Controller already initialized", debug.traceback());
 			return;

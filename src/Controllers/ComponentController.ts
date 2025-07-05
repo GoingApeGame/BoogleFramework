@@ -1,10 +1,11 @@
 import { CollectionService, RunService, ServerScriptService, StarterPlayer, Workspace } from "@rbxts/services";
-import { IComponentManifest } from "../Types/IComponentManifest";
-import { BaseComponent } from "../Classes/BaseComponent";
+import type { IComponentManifest } from "../Types/IComponentManifest";
+import type { BaseComponent } from "../Classes/BaseComponent";
 import { BaseController } from "../Classes/BaseController";
 import { BullshitHelpers } from "../Services/BullshitHelpers";
 import { ComponentService } from "../Services/ComponentService";
-import { PhysicsStep, RenderStep } from "../Types/IControllerTypes";
+import type { PhysicsStep, RenderStep } from "../Types/IControllerTypes";
+import type { GameStarter } from "../Classes/GameStarter";
 
 export class ComponentController extends BaseController implements RenderStep, PhysicsStep {
 	public static ComponentManifest: IComponentManifest = [];
@@ -20,8 +21,8 @@ export class ComponentController extends BaseController implements RenderStep, P
 			?.FindFirstChild("Components") as Folder;
 	}
 
-	public override async Initialize() {
-		super.Initialize();
+	public override async Initialize(Starter: GameStarter) {
+		super.Initialize(Starter);
 
 		const ComponentsFolder = ComponentController.GetComponentsFolder();
 

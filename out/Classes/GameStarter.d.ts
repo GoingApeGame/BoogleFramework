@@ -1,5 +1,5 @@
-import { IControllerRegistry } from "../Types/IControllerRegistry";
-import { BaseController } from "./BaseController";
+import type { IControllerRegistry } from "../Types/IControllerRegistry";
+import type { BaseController } from "./BaseController";
 export declare abstract class GameStarter {
     static GameName: string;
     static GameVersion: number;

@@ -1,4 +1,4 @@
-import { PhysicsStep, RenderStep } from "../Types/IControllerTypes";
+import type { PhysicsStep, RenderStep } from "../Types/IControllerTypes";
 import type { BaseController } from "./BaseController";
 import { RunService } from "@rbxts/services";
 

@@ -31,7 +31,7 @@ do
 		local _exp = self.Controllers
 		-- ▼ ReadonlyMap.forEach ▼
 		local _callback = function(Controller)
-			Controller:Initialize()
+			Controller:Initialize(self)
 		end
 		for _k, _v in _exp do
 			_callback(_v, _k, _exp)
