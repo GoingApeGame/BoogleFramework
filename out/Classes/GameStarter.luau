@@ -23,7 +23,7 @@ do
 	end
 	function GameStarter:StartControllers()
 		for _, ControllerClass in self.ControllerRegistry do
-			local ControllerInstance = ControllerClass.new()
+			local ControllerInstance = ControllerClass.new(getmetatable(self))
 			local _controllers = self.Controllers
 			local _arg0 = ControllerInstance:GetName()
 			_controllers[_arg0] = ControllerInstance
@@ -31,7 +31,7 @@ do
 		local _exp = self.Controllers
 		-- ▼ ReadonlyMap.forEach ▼
 		local _callback = function(Controller)
-			Controller:Initialize(getmetatable(self))
+			Controller:Initialize()
 		end
 		for _k, _v in _exp do
 			_callback(_v, _k, _exp)

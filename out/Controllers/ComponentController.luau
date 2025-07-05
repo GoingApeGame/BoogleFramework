@@ -43,8 +43,8 @@ do
 		end
 		return _result
 	end
-	ComponentController.Initialize = TS.async(function(self, Starter)
-		super.Initialize(self, Starter)
+	ComponentController.Initialize = TS.async(function(self)
+		super.Initialize(self)
 		local ComponentsFolder = ComponentController:GetComponentsFolder()
 		if not ComponentsFolder then
 			error("Failed to find Components folder")

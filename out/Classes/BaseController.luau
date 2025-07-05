@@ -6,11 +6,12 @@ local StepHandler = TS.import(script, script.Parent, "StepHandler").StepHandler
 local BaseController
 do
 	BaseController = {}
-	function BaseController:constructor()
+	function BaseController:constructor(Starter)
+		self.Starter = Starter
 		self.IsInitialized = false
 		self.InitializedTime = 0
 	end
-	BaseController.Initialize = TS.async(function(self, Starter)
+	BaseController.Initialize = TS.async(function(self)
 		if self.IsInitialized then
 			BullshitHelpers:LogWarning("Controller already initialized", debug.traceback())
 			return nil

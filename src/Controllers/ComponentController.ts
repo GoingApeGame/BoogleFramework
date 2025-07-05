@@ -21,8 +21,8 @@ export class ComponentController extends BaseController implements RenderStep, P
 			?.FindFirstChild("Components") as Folder;
 	}
 
-	public override async Initialize(Starter: typeof GameStarter) {
-		super.Initialize(Starter);
+	public override async Initialize() {
+		super.Initialize();
 
 		const ComponentsFolder = ComponentController.GetComponentsFolder();
 

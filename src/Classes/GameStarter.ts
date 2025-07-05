@@ -37,12 +37,12 @@ export abstract class GameStarter {
 
 	public static StartControllers() {
 		for (const ControllerClass of this.ControllerRegistry) {
-			const ControllerInstance = new ControllerClass();
+			const ControllerInstance = new ControllerClass(getmetatable(this) as typeof this);
 			this.Controllers.set(ControllerInstance.GetName(), ControllerInstance);
 		}
 
 		this.Controllers.forEach((Controller) => {
-			Controller.Initialize(getmetatable(this) as typeof this);
+			Controller.Initialize();
 		});
 
 		StepHandler.Initialize();
