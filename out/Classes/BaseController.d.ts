@@ -1,9 +1,9 @@
 import type { GameStarter } from "./GameStarter";
 export declare abstract class BaseController {
-    readonly Starter: typeof GameStarter;
+    readonly Starter: GameStarter;
     protected IsInitialized: boolean;
     protected InitializedTime: number;
-    constructor(Starter: typeof GameStarter);
+    constructor(Starter: GameStarter);
     Initialize(): Promise<void>;
     PostInitialize(): Promise<void>;
     private _PlayerAdded;
