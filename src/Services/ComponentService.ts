@@ -100,7 +100,7 @@ export abstract class ComponentService {
 		return new Promise((Resolve) => {
 			const StartTime = os.clock();
 
-			const Interval = RunService.Heartbeat.Connect(() => {
+			const Interval = RunService.PreSimulation.Connect(() => {
 				const Component = this.GetFirstComponent(Type);
 
 				if (Component) {

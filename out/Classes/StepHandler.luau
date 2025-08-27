@@ -41,7 +41,7 @@ do
 				-- ▲ ReadonlyMap.forEach ▲
 			end)
 		end
-		RunService.Heartbeat:Connect(function(DeltaTime)
+		RunService.PreSimulation:Connect(function(DeltaTime)
 			local _exp = self.PhysicsStepControllers
 			-- ▼ ReadonlyMap.forEach ▼
 			local _callback = function(PhysicsStep, Controller)

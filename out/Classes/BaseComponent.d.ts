@@ -13,7 +13,7 @@ export declare abstract class BaseComponent<T extends Instance> {
     GetName(): string;
     static GetClassName(): string;
     protected TagInstance(ForceName?: string): void;
-    Stop(): void;
+    abstract Stop(): void;
     Destroy(): void;
     GetInstance(): T;
 }

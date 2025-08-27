@@ -47,8 +47,6 @@ do
 		end
 		self.Instance:AddTag(ComponentName)
 	end
-	function BaseComponent:Stop()
-	end
 	function BaseComponent:Destroy()
 		self:Stop()
 		if self.Instance then

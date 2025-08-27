@@ -164,7 +164,7 @@ do
 		return TS.Promise.new(function(Resolve)
 			local StartTime = os.clock()
 			local Interval
-			Interval = RunService.Heartbeat:Connect(function()
+			Interval = RunService.PreSimulation:Connect(function()
 				local Component = self:GetFirstComponent(Type)
 				if Component then
 					Interval:Disconnect()

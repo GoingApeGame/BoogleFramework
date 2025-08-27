@@ -56,7 +56,7 @@ export abstract class BaseComponent<T extends Instance> {
 		this.Instance.AddTag(ComponentName);
 	}
 
-	public Stop(): void {}
+	public abstract Stop(): void;
 
 	public Destroy(): void {
 		this.Stop();
