@@ -1,6 +1,4 @@
 -- Compiled with roblox-ts v3.0.0
-local TS = _G[script]
-local BullshitHelpers = TS.import(script, script.Parent, "BullshitHelpers").BullshitHelpers
 local Localizer
 do
 	Localizer = {}
@@ -11,7 +9,7 @@ do
 	end
 	function Localizer:GetLocalizedString(Key)
 		if not self.LocalizationTable then
-			BullshitHelpers:LogError("Localization table is not set.")
+			warn("Localization table is not set.")
 			return Key
 		end
 		local String = self.LocalizationTable[Key]

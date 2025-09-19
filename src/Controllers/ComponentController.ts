@@ -68,20 +68,14 @@ export class ComponentController extends BaseController implements RenderStep, P
 				});
 
 				if (!WasSuccess) {
-					BullshitHelpers.LogWarning(
-						"Failed to register component",
-						ComponentToRegister,
-						"on",
-						Instance,
-						Result,
-					);
+					warn("Failed to register component", ComponentToRegister, "on", Instance, Result);
 				}
 			};
 
 			const Name = tostring(ComponentToRegister);
 
 			if (Name === "Component") {
-				BullshitHelpers.LogWarning(`Component Name: {${Name}} is reserved`);
+				warn(`Component Name: {${Name}} is reserved`);
 
 				return;
 			}
@@ -103,7 +97,7 @@ export class ComponentController extends BaseController implements RenderStep, P
 			});
 
 			if (UnregisteredComponents.size() > 0) {
-				BullshitHelpers.LogWarning(
+				warn(
 					"The following components have not been utilized:",
 					UnregisteredComponents.map((Component) => tostring(Component)).join(", "),
 				);
@@ -122,7 +116,7 @@ export class ComponentController extends BaseController implements RenderStep, P
 				try {
 					RenderStep(Component, DeltaTime);
 				} catch (error) {
-					BullshitHelpers.LogError(`Error in RenderStep for component ${Component.GetName()}:`, error);
+					warn(`Error in RenderStep for component ${Component.GetName()}:`, error);
 				}
 			}
 		});
@@ -139,7 +133,7 @@ export class ComponentController extends BaseController implements RenderStep, P
 				try {
 					PhysicsStep(Component, DeltaTime);
 				} catch (error) {
-					BullshitHelpers.LogError(`Error in PhysicsStep for component ${Component.GetName()}:`, error);
+					warn(`Error in PhysicsStep for component ${Component.GetName()}:`, error);
 				}
 			}
 		});
@@ -148,7 +142,7 @@ export class ComponentController extends BaseController implements RenderStep, P
 	public override async PostInitialize() {
 		super.PostInitialize();
 
-		BullshitHelpers.LogSuccess(`${ComponentController.ComponentManifest.size()} components registered`);
+		print(`${ComponentController.ComponentManifest.size()} components registered`);
 	}
 }
 
@@ -156,8 +150,8 @@ export function RegisterComponent<T extends typeof BaseComponent<Instance>>(Comp
 	if (!ComponentController.ComponentManifest.includes(Component)) {
 		ComponentController.ComponentManifest.push(Component);
 
-		// BullshitHelpers.LogSuccess(`Registered component ${tostring(Component)}`);
+		// print(`Registered component ${tostring(Component)}`);
 	} else {
-		BullshitHelpers.LogWarning(`Component ${tostring(Component)} already registered`);
+		warn(`Component ${tostring(Component)} already registered`);
 	}
 }

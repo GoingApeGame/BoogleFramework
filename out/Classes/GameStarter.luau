@@ -19,7 +19,7 @@ do
 	end
 	function GameStarter:Start()
 		self.StartedTime = os.clock()
-		BullshitHelpers:LogInfo(`Starting {self.GameName} {self.GameVersion}`)
+		print(`Starting {self.GameName} {self.GameVersion}`)
 	end
 	function GameStarter:StartControllers()
 		for _, ControllerClass in self.ControllerRegistry do
@@ -49,7 +49,7 @@ do
 		-- ▲ ReadonlyMap.forEach ▲
 	end
 	function GameStarter:AfterStart()
-		BullshitHelpers:LogSuccess(`{self.GameName} {self.GameVersion} started in {BullshitHelpers:RoundToDecimal(os.clock() - self.StartedTime, 3)} seconds`)
+		print(`{self.GameName} {self.GameVersion} started in {BullshitHelpers:RoundToDecimal(os.clock() - self.StartedTime, 3)} seconds`)
 	end
 	GameStarter.GameName = game.Name
 	GameStarter.GameVersion = game.PlaceVersion

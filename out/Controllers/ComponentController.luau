@@ -7,7 +7,6 @@ local ServerScriptService = _services.ServerScriptService
 local StarterPlayer = _services.StarterPlayer
 local Workspace = _services.Workspace
 local BaseController = TS.import(script, script.Parent.Parent, "Classes", "BaseController").BaseController
-local BullshitHelpers = TS.import(script, script.Parent.Parent, "Services", "BullshitHelpers").BullshitHelpers
 local ComponentService = TS.import(script, script.Parent.Parent, "Services", "ComponentService").ComponentService
 local ComponentController
 do
@@ -84,12 +83,12 @@ do
 					end)
 				end)
 				if not WasSuccess then
-					BullshitHelpers:LogWarning("Failed to register component", ComponentToRegister, "on", Instance, Result)
+					warn("Failed to register component", ComponentToRegister, "on", Instance, Result)
 				end
 			end
 			local Name = tostring(ComponentToRegister)
 			if Name == "Component" then
-				BullshitHelpers:LogWarning(`Component Name: \{{Name}\} is reserved`)
+				warn(`Component Name: \{{Name}\} is reserved`)
 				return nil
 			end
 			local _exp_1 = CollectionService:GetTagged(Name)
@@ -138,7 +137,7 @@ do
 					_newValue_2[_k] = _callback_3(_v, _k - 1, UnregisteredComponents)
 				end
 				-- ▲ ReadonlyArray.map ▲
-				BullshitHelpers:LogWarning("The following components have not been utilized:", table.concat(_newValue_2, ", "))
+				warn("The following components have not been utilized:", table.concat(_newValue_2, ", "))
 			end
 		end)
 	end)
@@ -151,7 +150,7 @@ do
 				TS.try(function()
 					RenderStep(Component, DeltaTime)
 				end, function(error)
-					BullshitHelpers:LogError(`Error in RenderStep for component {Component:GetName()}:`, error)
+					warn(`Error in RenderStep for component {Component:GetName()}:`, error)
 				end)
 			end
 		end
@@ -169,7 +168,7 @@ do
 				TS.try(function()
 					PhysicsStep(Component, DeltaTime)
 				end, function(error)
-					BullshitHelpers:LogError(`Error in PhysicsStep for component {Component:GetName()}:`, error)
+					warn(`Error in PhysicsStep for component {Component:GetName()}:`, error)
 				end)
 			end
 		end
@@ -180,7 +179,7 @@ do
 	end
 	ComponentController.PostInitialize = TS.async(function(self)
 		super.PostInitialize(self)
-		BullshitHelpers:LogSuccess(`{#ComponentController.ComponentManifest} components registered`)
+		print(`{#ComponentController.ComponentManifest} components registered`)
 	end)
 	ComponentController.ComponentManifest = {}
 end
@@ -191,9 +190,9 @@ local function RegisterComponent(Component)
 		local _componentManifest_1 = ComponentController.ComponentManifest
 		local _component_1 = Component
 		table.insert(_componentManifest_1, _component_1)
-		-- BullshitHelpers.LogSuccess(`Registered component ${tostring(Component)}`);
+		-- print(`Registered component ${tostring(Component)}`);
 	else
-		BullshitHelpers:LogWarning(`Component {tostring(Component)} already registered`)
+		warn(`Component {tostring(Component)} already registered`)
 	end
 end
 return {

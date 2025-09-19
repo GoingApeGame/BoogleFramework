@@ -32,7 +32,7 @@ export abstract class GameStarter {
 
 	public static Start() {
 		this.StartedTime = os.clock();
-		BullshitHelpers.LogInfo(`Starting ${this.GameName} ${this.GameVersion}`);
+		print(`Starting ${this.GameName} ${this.GameVersion}`);
 	}
 
 	public static StartControllers() {
@@ -53,7 +53,7 @@ export abstract class GameStarter {
 	}
 
 	public static AfterStart() {
-		BullshitHelpers.LogSuccess(
+		print(
 			`${this.GameName} ${this.GameVersion} started in ${BullshitHelpers.RoundToDecimal(os.clock() - this.StartedTime, 3)} seconds`,
 		);
 	}

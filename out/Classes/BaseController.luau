@@ -1,7 +1,6 @@
 -- Compiled with roblox-ts v3.0.0
 local TS = _G[script]
 local Players = TS.import(script, TS.getModule(script, "@rbxts", "services")).Players
-local BullshitHelpers = TS.import(script, script.Parent.Parent, "Services", "BullshitHelpers").BullshitHelpers
 local StepHandler = TS.import(script, script.Parent, "StepHandler").StepHandler
 local BaseController
 do
@@ -12,11 +11,11 @@ do
 	end
 	BaseController.Initialize = TS.async(function(self)
 		if self.IsInitialized then
-			BullshitHelpers:LogWarning("Controller already initialized", debug.traceback())
+			warn("Controller already initialized", debug.traceback())
 			return nil
 		end
 		self.InitializedTime = os.clock()
-		BullshitHelpers:LogWarning(`Initializing {self:GetName()}`)
+		warn(`Initializing {self:GetName()}`)
 		local _exp = Players:GetPlayers()
 		-- ▼ ReadonlyArray.forEach ▼
 		local _callback = function(Player)
@@ -40,7 +39,7 @@ do
 			error(`Controller {self:GetName()} was not initialized`)
 		end
 		self.IsInitialized = true
-		BullshitHelpers:LogSuccess(`Initialized {self:GetName()}`)
+		print(`Initialized {self:GetName()}`)
 	end)
 	function BaseController:_PlayerAdded(Player)
 		self:PlayerAdded(Player)

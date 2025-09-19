@@ -12,7 +12,7 @@ export abstract class ReplicatedAssetService {
 			const NextPoint = CurrentPoint.FindFirstChild(PathPart);
 
 			if (!NextPoint) {
-				BullshitHelpers.LogWarning(`Could not find ${PathPart} in ${CurrentPoint.GetFullName()}`);
+				warn(`Could not find ${PathPart} in ${CurrentPoint.GetFullName()}`);
 				CurrentPoint = new Instance("Model");
 				break;
 			}

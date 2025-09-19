@@ -13,7 +13,7 @@ export abstract class Localizer {
 
 	public static GetLocalizedString(Key: string): string {
 		if (!this.LocalizationTable) {
-			BullshitHelpers.LogError("Localization table is not set.");
+			warn("Localization table is not set.");
 			return Key;
 		}
 

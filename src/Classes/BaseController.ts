@@ -13,13 +13,13 @@ export abstract class BaseController {
 
 	public async Initialize() {
 		if (this.IsInitialized) {
-			BullshitHelpers.LogWarning("Controller already initialized", debug.traceback());
+			warn("Controller already initialized", debug.traceback());
 			return;
 		}
 
 		this.InitializedTime = os.clock();
 
-		BullshitHelpers.LogWarning(`Initializing ${this.GetName()}`);
+		warn(`Initializing ${this.GetName()}`);
 
 		Players.GetPlayers().forEach((Player) => {
 			this._PlayerAdded(Player);
@@ -44,7 +44,7 @@ export abstract class BaseController {
 
 		this.IsInitialized = true;
 
-		BullshitHelpers.LogSuccess(`Initialized ${this.GetName()}`);
+		print(`Initialized ${this.GetName()}`);
 	}
 
 	private _PlayerAdded(Player: Player) {
