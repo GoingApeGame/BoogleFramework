@@ -18,7 +18,7 @@ do
 	end
 	function GameStarter:Start()
 		self.StartedTime = os.clock()
-		print(`Starting {self.GameName} {self.GameVersion}`)
+		-- print(`Starting ${this.GameName} ${this.GameVersion}`);
 	end
 	function GameStarter:StartControllers()
 		for _, ControllerClass in self.ControllerRegistry do

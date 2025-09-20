@@ -32,7 +32,7 @@ export abstract class GameStarter {
 
 	public static Start() {
 		this.StartedTime = os.clock();
-		print(`Starting ${this.GameName} ${this.GameVersion}`);
+		// print(`Starting ${this.GameName} ${this.GameVersion}`);
 	}
 
 	public static StartControllers() {
