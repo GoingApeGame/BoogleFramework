@@ -19,7 +19,7 @@ export abstract class BaseController {
 
 		this.InitializedTime = os.clock();
 
-		warn(`Initializing ${this.GetName()}`);
+		// warn(`Initializing ${this.GetName()}`);
 
 		Players.GetPlayers().forEach((Player) => {
 			this._PlayerAdded(Player);
@@ -44,7 +44,7 @@ export abstract class BaseController {
 
 		this.IsInitialized = true;
 
-		print(`Initialized ${this.GetName()}`);
+		// print(`Initialized ${this.GetName()}`);
 	}
 
 	private _PlayerAdded(Player: Player) {

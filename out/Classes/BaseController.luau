@@ -15,7 +15,7 @@ do
 			return nil
 		end
 		self.InitializedTime = os.clock()
-		warn(`Initializing {self:GetName()}`)
+		-- warn(`Initializing ${this.GetName()}`);
 		local _exp = Players:GetPlayers()
 		-- ▼ ReadonlyArray.forEach ▼
 		local _callback = function(Player)
@@ -39,7 +39,7 @@ do
 			error(`Controller {self:GetName()} was not initialized`)
 		end
 		self.IsInitialized = true
-		print(`Initialized {self:GetName()}`)
+		-- print(`Initialized ${this.GetName()}`);
 	end)
 	function BaseController:_PlayerAdded(Player)
 		self:PlayerAdded(Player)

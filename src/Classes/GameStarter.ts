@@ -53,8 +53,8 @@ export abstract class GameStarter {
 	}
 
 	public static AfterStart() {
-		print(
-			`${this.GameName} ${this.GameVersion} started in ${BullshitHelpers.RoundToDecimal(os.clock() - this.StartedTime, 3)} seconds`,
-		);
+		// print(
+		// 	`${this.GameName} ${this.GameVersion} started in ${BullshitHelpers.RoundToDecimal(os.clock() - this.StartedTime, 3)} seconds`,
+		// );
 	}
 }

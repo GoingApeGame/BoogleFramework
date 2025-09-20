@@ -1,6 +1,5 @@
 -- Compiled with roblox-ts v3.0.0
 local TS = _G[script]
-local BullshitHelpers = TS.import(script, script.Parent.Parent, "Services", "BullshitHelpers").BullshitHelpers
 local StepHandler = TS.import(script, script.Parent, "StepHandler").StepHandler
 local GameStarter
 do
@@ -49,7 +48,9 @@ do
 		-- ▲ ReadonlyMap.forEach ▲
 	end
 	function GameStarter:AfterStart()
-		print(`{self.GameName} {self.GameVersion} started in {BullshitHelpers:RoundToDecimal(os.clock() - self.StartedTime, 3)} seconds`)
+		-- print(
+		-- 	`${this.GameName} ${this.GameVersion} started in ${BullshitHelpers.RoundToDecimal(os.clock() - this.StartedTime, 3)} seconds`,
+		-- );
 	end
 	GameStarter.GameName = game.Name
 	GameStarter.GameVersion = game.PlaceVersion

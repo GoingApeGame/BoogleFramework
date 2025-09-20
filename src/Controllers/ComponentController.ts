@@ -97,10 +97,10 @@ export class ComponentController extends BaseController implements RenderStep, P
 			});
 
 			if (UnregisteredComponents.size() > 0) {
-				warn(
-					"The following components have not been utilized:",
-					UnregisteredComponents.map((Component) => tostring(Component)).join(", "),
-				);
+				// warn(
+				// 	"The following components have not been utilized:",
+				// 	UnregisteredComponents.map((Component) => tostring(Component)).join(", "),
+				// );
 			}
 		});
 	}
@@ -142,7 +142,7 @@ export class ComponentController extends BaseController implements RenderStep, P
 	public override async PostInitialize() {
 		super.PostInitialize();
 
-		print(`${ComponentController.ComponentManifest.size()} components registered`);
+		// print(`${ComponentController.ComponentManifest.size()} components registered`);
 	}
 }
 

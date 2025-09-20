@@ -128,16 +128,10 @@ do
 			-- ▲ ReadonlyArray.filter ▲
 			local UnregisteredComponents = _newValue_1
 			if #UnregisteredComponents > 0 then
-				-- ▼ ReadonlyArray.map ▼
-				local _newValue_2 = table.create(#UnregisteredComponents)
-				local _callback_3 = function(Component)
-					return tostring(Component)
-				end
-				for _k, _v in UnregisteredComponents do
-					_newValue_2[_k] = _callback_3(_v, _k - 1, UnregisteredComponents)
-				end
-				-- ▲ ReadonlyArray.map ▲
-				warn("The following components have not been utilized:", table.concat(_newValue_2, ", "))
+				-- warn(
+				-- 	"The following components have not been utilized:",
+				-- 	UnregisteredComponents.map((Component) => tostring(Component)).join(", "),
+				-- );
 			end
 		end)
 	end)
@@ -179,7 +173,7 @@ do
 	end
 	ComponentController.PostInitialize = TS.async(function(self)
 		super.PostInitialize(self)
-		print(`{#ComponentController.ComponentManifest} components registered`)
+		-- print(`${ComponentController.ComponentManifest.size()} components registered`);
 	end)
 	ComponentController.ComponentManifest = {}
 end
